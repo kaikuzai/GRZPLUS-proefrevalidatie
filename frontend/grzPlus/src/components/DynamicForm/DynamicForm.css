@@ -1,0 +1,233 @@
+/* DynamicForm.css */
+
+.dynamic-form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .form-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 28px;
+  }
+  
+  .return-button {
+    display: block;
+    margin: 0 0 30px 0;
+    padding: 10px 15px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+  
+  .return-button:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .dynamic-form {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+  }
+  
+  .form-field {
+    margin-bottom: 25px;
+  }
+  
+  .form-field label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .required {
+    color: #e74c3c;
+    margin-left: 4px;
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+  }
+  
+  input[type="text"]:focus {
+    border-color: #3498db;
+    outline: none;
+  }
+  
+  .radio-group {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .radio-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .radio-label input {
+    margin-right: 8px;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+  
+  .submit-button, .clear-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+  }
+  
+  .submit-button {
+    background-color: #2ecc71;
+    color: white;
+  }
+  
+  .submit-button:hover {
+    background-color: #27ae60;
+  }
+  
+  .clear-button {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  .clear-button:hover {
+    background-color: #c0392b;
+  }
+  
+  .submit-button:active, .clear-button:active {
+    transform: translateY(2px);
+  }
+  
+  /* Error states */
+  .error label {
+    color: #e74c3c;
+  }
+  
+  .error-input {
+    border: 2px solid #e74c3c !important;
+  }
+  
+  .error-message {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  /* Loading state */
+  .loading {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #777;
+  }
+  
+  .error-container {
+    text-align: center;
+    padding: 40px;
+    color: #e74c3c;
+  }
+  
+  /* Modal styling */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal {
+    background-color: white;
+    border-radius: 8px;
+    padding: 25px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal h3 {
+    margin-top: 0;
+    color: #333;
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .cancel-button, .confirm-button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+  
+  .cancel-button {
+    background-color: #f0f0f0;
+    color: #333;
+  }
+  
+  .confirm-button {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  .cancel-button:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .confirm-button:hover {
+    background-color: #c0392b;
+  }
+  
+  /* Responsive adjustments */
+  @media screen and (max-width: 768px) {
+    .dynamic-form {
+      padding: 20px;
+    }
+    
+    .radio-group {
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .form-actions {
+      flex-direction: column-reverse;
+      gap: 15px;
+    }
+    
+    .submit-button, .clear-button {
+      width: 100%;
+    }
+  }
