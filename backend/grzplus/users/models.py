@@ -30,6 +30,11 @@ class User(AbstractUser):
     zip_code = models.CharField(max_length=10, blank=True)
     bsn = models.CharField(max_length=10, blank=True)
 
+    def save(self, *args, **kwargs):
+        if self.username:
+            self.email = self.username
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.email
     

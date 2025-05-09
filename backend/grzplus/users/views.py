@@ -27,19 +27,22 @@ class LoginView(APIView):
     def post(self, request, format=None):
         data = self.request.data
         
-        email = data['email']
+        username = data['username']
         password = data['password']
 
-        user = authenticate(email=email, password=password)
-
-        print(user)
+        user = authenticate(username=username, password=f"{password}")
 
         if user is not None:
             try:
                 login(request, user)
-                return Response({'response': 'Succeeded'})
+                return Response({
+                    'response': 'Succeeded',
+                    'role': user.role,
+                    'email': user.username,
+                    'name': user.first_name,  
+                    })
             except Exception as e:
-                print(f'Something went wrong authenticating {email}', e)
+                print(f'Something went wrong authenticating {username}', e)
         else:
             return Response({'response': 'Failed'})
         
