@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "./DynamicForm.css";
+import useFormSlug from "../../hooks/useFormSlug";
+import useSubmitForm from "../../hooks/useSubmitForm";
 
 // Form field types
 interface FormField {
@@ -11,101 +13,34 @@ interface FormField {
   required: boolean;
 }
 
-// Form data structure
-interface FormData {
-  id: string;
-  name: string;
-  fields: FormField[];
-}
-
-// Hook to fetch form data (mock implementation)
-const useFormData = (formId: string) => {
-  const [formData, setFormData] = useState<FormData | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    // In a real app, this would be an API call
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        // Mock API call delay
-        await new Promise((resolve) => setTimeout(resolve, 500));
-
-        // Mock form data
-        const data: FormData = {
-          id: formId,
-          name: "Health Assessment Form",
-          fields: [
-            {
-              id: "name",
-              type: "text",
-              label: "Full Name",
-              placeholder: "Enter your full name",
-              required: true,
-            },
-            {
-              id: "age",
-              type: "text",
-              label: "Age",
-              placeholder: "Enter your age",
-              required: true,
-            },
-            {
-              id: "smoker",
-              type: "yesno",
-              label: "Do you smoke?",
-              required: true,
-            },
-            {
-              id: "exercise",
-              type: "yesno",
-              label: "Do you exercise regularly?",
-              required: false,
-            },
-            {
-              id: "allergies",
-              type: "text",
-              label: "Do you have any allergies?",
-              placeholder: "List allergies or write 'None'",
-              required: false,
-            },
-          ],
-        };
-
-        setFormData(data);
-      } catch (err) {
-        setError("Failed to load form data");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [formId]);
-
-  return { formData, loading, error };
-};
-
+// Modified interface to include labels
 interface FormValues {
-  [key: string]: string;
+  [key: string]: {
+    value: string;
+    label: string;
+  };
 }
 
 const DynamicForm = () => {
   const navigate = useNavigate();
-  // In a real app, you would get this ID from URL params or props
-  const formId = "sample-form";
-  const { formData, loading, error } = useFormData(formId);
+
+  const { slug } = useParams();
+  const { formData, loading, error } = useFormSlug(slug!);
+  const { submitForm } = useSubmitForm();
+
+  console.log("formdata: ", formData);
 
   const [values, setValues] = useState<FormValues>({});
   const [errors, setErrors] = useState<string[]>([]);
   const [showClearConfirm, setShowClearConfirm] = useState<boolean>(false);
 
-  const handleInputChange = (fieldId: string, value: string) => {
+  const handleInputChange = (fieldId: string, value: string, label: string) => {
     setValues((prev) => ({
       ...prev,
-      [fieldId]: value,
+      [fieldId]: {
+        value,
+        label,
+      },
     }));
 
     // Clear field from errors when user starts typing
@@ -137,7 +72,7 @@ const DynamicForm = () => {
     formData?.fields.forEach((field) => {
       if (
         field.required &&
-        (!values[field.id] || values[field.id].trim() === "")
+        (!values[field.id] || values[field.id].value.trim() === "")
       ) {
         newErrors.push(field.id);
       }
@@ -148,13 +83,15 @@ const DynamicForm = () => {
       return;
     }
 
-    // Submit form data
+    // Submit form data with labels included
     try {
       // This would be your API call in a real app
       console.log("Submitting form data:", values);
 
       // Mock API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (formData?.name && formData?.id) {
+        await submitForm(formData.id, formData.name, values);
+      }
 
       alert("Form submitted successfully!");
       // Navigate back to forms page
@@ -183,13 +120,13 @@ const DynamicForm = () => {
               type="text"
               id={field.id}
               placeholder={field.placeholder || ""}
-              value={values[field.id] || ""}
-              onChange={(e) => handleInputChange(field.id, e.target.value)}
+              value={values[field.id]?.value || ""}
+              onChange={(e) =>
+                handleInputChange(field.id, e.target.value, field.label)
+              }
               className={hasError ? "error-input" : ""}
             />
-            {hasError && (
-              <p className="error-message">This field is required</p>
-            )}
+            {hasError && <p className="error-message">Dit veld is verplicht</p>}
           </div>
         );
 
@@ -209,8 +146,10 @@ const DynamicForm = () => {
                   type="radio"
                   name={field.id}
                   value="yes"
-                  checked={values[field.id] === "yes"}
-                  onChange={() => handleInputChange(field.id, "yes")}
+                  checked={values[field.id]?.value === "yes"}
+                  onChange={() =>
+                    handleInputChange(field.id, "yes", field.label)
+                  }
                 />
                 Yes
               </label>
@@ -219,8 +158,10 @@ const DynamicForm = () => {
                   type="radio"
                   name={field.id}
                   value="no"
-                  checked={values[field.id] === "no"}
-                  onChange={() => handleInputChange(field.id, "no")}
+                  checked={values[field.id]?.value === "no"}
+                  onChange={() =>
+                    handleInputChange(field.id, "no", field.label)
+                  }
                 />
                 No
               </label>

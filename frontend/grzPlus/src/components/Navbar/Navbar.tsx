@@ -29,7 +29,7 @@ export default function Navbar({
     { to: "/dashboard", label: "Dashboard" },
     { to: "/formulieren", label: "Formulieren" },
     { to: "/login", label: "Login" },
-    { to: "/add-patient", label: "Patient toevoegen" },
+    { to: "/add-patient", label: "Patient registreren" },
   ],
 }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

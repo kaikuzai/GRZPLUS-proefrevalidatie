@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./CaregiverDashboard.css";
 import FormResponseDetail from "./FormResponseDetail.tsx";
+import useSubmittedForms from "../../hooks/useSubmittedForms.tsx";
 
 // Types for form responses
 interface FormResponse {
@@ -21,91 +22,17 @@ const useFormResponses = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const { data } = useSubmittedForms();
+
   useEffect(() => {
     const fetchResponses = async () => {
       try {
         setLoading(true);
-        // Mock API call delay
-        await new Promise((resolve) => setTimeout(resolve, 800));
 
-        // Mock response data
-        const data: FormResponse[] = [
-          {
-            id: "resp-1",
-            formId: "form-1",
-            formName: "Health Assessment Form",
-            patientName: "John Doe",
-            patientEmail: "john.doe@example.com",
-            submittedAt: "2025-05-07T14:30:00Z",
-            answers: {
-              name: "John Doe",
-              age: "45",
-              smoker: "yes",
-              exercise: "no",
-              allergies: "Peanuts, Shellfish",
-            },
-          },
-          {
-            id: "resp-2",
-            formId: "form-1",
-            formName: "Health Assessment Form",
-            patientName: "Jane Smith",
-            patientEmail: "jane.smith@example.com",
-            submittedAt: "2025-05-06T10:15:00Z",
-            answers: {
-              name: "Jane Smith",
-              age: "32",
-              smoker: "no",
-              exercise: "yes",
-              allergies: "None",
-            },
-          },
-          {
-            id: "resp-3",
-            formId: "form-2",
-            formName: "Sleep Quality Assessment",
-            patientName: "Michael Brown",
-            patientEmail: "michael.brown@example.com",
-            submittedAt: "2025-05-05T09:45:00Z",
-            answers: {
-              name: "Michael Brown",
-              hoursOfSleep: "6",
-              sleepQuality: "poor",
-              medications: "None",
-            },
-          },
-          {
-            id: "resp-4",
-            formId: "form-1",
-            formName: "Health Assessment Form",
-            patientName: "Emily Wilson",
-            patientEmail: "emily.wilson@example.com",
-            submittedAt: "2025-05-04T16:20:00Z",
-            answers: {
-              name: "Emily Wilson",
-              age: "28",
-              smoker: "no",
-              exercise: "yes",
-              allergies: "Lactose intolerance",
-            },
-          },
-          {
-            id: "resp-5",
-            formId: "form-3",
-            formName: "Pain Assessment",
-            patientName: "Robert Johnson",
-            patientEmail: "robert.johnson@example.com",
-            submittedAt: "2025-05-03T11:10:00Z",
-            answers: {
-              name: "Robert Johnson",
-              painLevel: "7",
-              painLocation: "Lower back",
-              painDuration: "3 weeks",
-            },
-          },
-        ];
-
-        setResponses(data);
+        if (data) {
+          console.log("daaaaata output", data);
+          setResponses(data);
+        }
       } catch (err) {
         setError("Failed to load form responses");
         console.error(err);
@@ -115,7 +42,7 @@ const useFormResponses = () => {
     };
 
     fetchResponses();
-  }, []);
+  }, [data]);
 
   return { responses, loading, error };
 };
@@ -167,7 +94,7 @@ const CaregiverDashboard = () => {
   };
 
   if (loading) {
-    return <div className="dashboard-loading">Loading responses...</div>;
+    return <div className="dashboard-loading">Formulieren inladen...</div>;
   }
 
   if (error) {

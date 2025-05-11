@@ -1,0 +1,35 @@
+from django.conf import settings
+from rest_framework.views import APIView
+from rest_framework.response import Response 
+
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
+def registration_email(user, context):
+    try:
+        subject = "Welkom bij het GRZPLUS Revalidatie Platform"
+
+        
+
+        html_message = render_to_string("content/email-registration.html")
+        plain_message = strip_tags(html_message)
+
+        print(f"$$$$$$$$$$ {user.email} $$$$$$$$$$$$$$$")
+        message = EmailMultiAlternatives(
+            subject=subject, 
+            body=plain_message,
+            from_email=None,
+            to=["dylan.okyere@gmail.com"],
+        )
+
+        message.attach_alternative(html_message, "text/html")
+        message.send()
+
+        return True 
+    except Exception as e: 
+        print(e)
+        return False

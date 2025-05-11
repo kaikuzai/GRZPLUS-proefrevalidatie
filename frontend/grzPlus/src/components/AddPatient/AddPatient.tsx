@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
+import useRegisterPatient from "../../hooks/useRegisterPatient";
 import "./AddPatient.css";
 
 // Patient type definition
 interface Patient {
-  id: string;
   firstName: string;
   lastName: string;
   email: string;
-  createdAt: string;
 }
 
 // Mock function to simulate API call to check if email exists
@@ -34,19 +33,16 @@ const addPatient = async (
   lastName: string,
   email: string
 ): Promise<Patient> => {
-  // Simulate API latency
-  await new Promise((resolve) => setTimeout(resolve, 800));
+  // call register
+  const { register } = useRegisterPatient();
 
-  // Generate random ID - this might be a lil dangerous lol
-  const id = `patient-${Math.floor(Math.random() * 10000)}`;
+  await register(firstName, lastName, email);
 
   // Create new patient object
   const newPatient: Patient = {
-    id,
     firstName,
     lastName,
     email,
-    createdAt: new Date().toISOString(),
   };
 
   return newPatient;
@@ -57,6 +53,7 @@ const AddPatient = () => {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const { register } = useRegisterPatient();
 
   // UI state
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);

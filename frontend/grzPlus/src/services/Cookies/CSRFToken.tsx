@@ -11,7 +11,7 @@ export const fetchOrReplaceCSRF = async () => {
 
   if (!csrfToken) {
     try {
-      const response = await apiClient.get<Response>("accounts/csrf-cookie/");
+      const response = await apiClient.get<Response>("api/users/csrf-cookie/");
       if (typeof response.data.token === "string") {
         Cookies.set("csrftoken", response.data.token);
       } else {

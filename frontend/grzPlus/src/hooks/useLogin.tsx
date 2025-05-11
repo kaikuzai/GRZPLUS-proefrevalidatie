@@ -1,8 +1,8 @@
 import apiClient from "../services/api-client";
 import Cookies from "js-cookie";
-import { fetchOrReplaceCSRF } from "../services/Cookies/CSRFToken";
 import { useDispatch } from "react-redux";
 import { setAuthorizationLogin } from "../state/authorization/authorizationSlice";
+import { fetchOrReplaceCSRF } from "../services/Cookies/CSRFToken";
 
 interface Response {
   response: string;
@@ -16,7 +16,6 @@ const useLoginUser = () => {
 
   const login = async (username: string, password: string) => {
     await fetchOrReplaceCSRF();
-
     const body = { username, password };
 
     const config = {
@@ -29,7 +28,7 @@ const useLoginUser = () => {
 
     try {
       const response = await apiClient.post<Response>(
-        "api/login/",
+        "api/users/login/",
         body,
         config
       );

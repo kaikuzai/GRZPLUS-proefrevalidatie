@@ -3,15 +3,13 @@ import "./FormResponseDetail.css";
 
 // Types for form responses
 interface FormResponse {
-  id: string;
+  id: string | number;
   formId: string;
   formName: string;
   patientName: string;
   patientEmail: string;
   submittedAt: string;
-  answers: {
-    [key: string]: string;
-  };
+  answers: string | { [key: string]: string }; // Accept either string or object
 }
 
 interface FormResponseDetailProps {
@@ -23,6 +21,33 @@ const FormResponseDetail: React.FC<FormResponseDetailProps> = ({
   response,
   onBack,
 }) => {
+  // Parse answers if they're in string format
+  const parseAnswers = (): { [key: string]: string } => {
+    // If answers is already an object, return it
+    if (typeof response.answers === "object" && response.answers !== null) {
+      return response.answers;
+    }
+
+    // If answers is a string, parse it
+    if (typeof response.answers === "string") {
+      try {
+        // Handle Python-style dictionary format
+        const cleanedString = response.answers
+          .replace(/'/g, '"') // Replace single quotes with double quotes
+          .replace(/(\w+):/g, '"$1":'); // Add quotes around keys
+
+        return JSON.parse(cleanedString);
+      } catch (error) {
+        console.error("Failed to parse answers:", error);
+        return {}; // Return empty object if parsing fails
+      }
+    }
+
+    return {}; // Default empty object
+  };
+
+  const answersObject = parseAnswers();
+
   // Format date for display
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -37,7 +62,7 @@ const FormResponseDetail: React.FC<FormResponseDetailProps> = ({
 
   // Format key for display (convert camelCase or snake_case to Title Case)
   const formatKey = (key: string) => {
-    // Remove common prefixes if present
+    // Remove common prefixes if presents
     const cleanKey = key.replace(/^(is|has|should|can)/, "");
 
     // Handle snake_case and camelCase
@@ -57,7 +82,6 @@ const FormResponseDetail: React.FC<FormResponseDetailProps> = ({
   const formatAnswer = (key: string, value: string) => {
     // Format yes/no answers for readability
     if (value.toLowerCase() === "yes" || value.toLowerCase() === "no") {
-      console.log(key);
       return value.charAt(0).toUpperCase() + value.slice(1);
     }
 
@@ -78,7 +102,7 @@ const FormResponseDetail: React.FC<FormResponseDetailProps> = ({
         <h1>{response.formName}</h1>
         <div className="response-meta">
           <p>
-            <strong>Patiënt:</strong> {response.patientName}
+            <strong>Patiënt:</strong> {response.patientName || "N/A"}
           </p>
           <p>
             <strong>Email:</strong> {response.patientEmail}
@@ -92,7 +116,7 @@ const FormResponseDetail: React.FC<FormResponseDetailProps> = ({
       <div className="response-content">
         <h2>Antwoorden</h2>
         <div className="answer-container">
-          {Object.entries(response.answers).map(([key, value]) => (
+          {Object.entries(answersObject).map(([key, value]) => (
             <div className="answer-item" key={key}>
               <div className="answer-label">{formatKey(key)}:</div>
               <div className="answer-value">{formatAnswer(key, value)}</div>
