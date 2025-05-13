@@ -11,6 +11,7 @@
   .login-title {
     font-size: 1.8rem;
     margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
     color:#333; 
   }
 
@@ -27,6 +28,7 @@
     font-size: 0.9rem;
     color: #555;
     margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
     text-align: left;
   }
   
@@ -38,7 +40,7 @@
     font-size: 1rem;
   }
   
-  .button {
+  .login-button {
     background-color: #000;
     color: #fff;
     padding: 0.8rem;
@@ -51,7 +53,25 @@
     width: 100%; /* Ensure both buttons have the same width */
   }
   
-  .button:hover {
+  .login-button:hover {
     background-color: #333;
   }
   
+
+  .email-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+  }
+
+  .password-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+  }

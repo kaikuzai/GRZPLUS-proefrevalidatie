@@ -42,92 +42,38 @@ const LoginCard: React.FC = () => {
 
   return (
     <div className="login-card">
-      <form
-        onSubmit={handleSubmit}
-        // style={{
-        //   display: "flex",
-        //   flexDirection: "column",
-        //   width: "350px",
-        //   padding: "30px",
-        //   backgroundColor: "#ffffff",
-        //   borderRadius: "8px",
-        //   boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-        // }}
-      >
+      <form onSubmit={handleSubmit} className="login-form">
         <h2 className="login-title">Login</h2>
 
         {/* Username Input */}
-        <label
-        // style={{
-        //   marginBottom: "5px",
-        //   fontWeight: "bold",
-        //   fontSize: "14px",
-        //   color: "#666",
-        // }}
-        >
-          Email
-        </label>
+        <label className="login-label">Email</label>
         <input
+          className="email-input"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Vul je e-mail in"
           autoComplete="email"
-          // style={{
-          //   marginBottom: "15px",
-          //   padding: "10px",
-          //   border: "1px solid #ccc",
-          //   borderRadius: "5px",
-          //   backgroundColor: "#ffffff",
-          //   color: "#000",
-          //   fontSize: "14px",
-          // }}
           required
         />
 
         {/* Password Input */}
-        <label
-        // style={{
-        //   marginBottom: "5px",
-        //   fontWeight: "bold",
-        //   fontSize: "14px",
-        //   color: "#666",
-        // }}
-        >
-          Wachtwoord
-        </label>
+        <label className="login-label">Wachtwoord</label>
         <input
+          className="password-input"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Vul hier je wachtwoord in"
           autoComplete="new-password"
-          style={{
-            marginBottom: "20px",
-            padding: "10px",
-            border: "1px solid #ccc",
-            borderRadius: "5px",
-            backgroundColor: "#ffffff",
-            color: "#000",
-            fontSize: "14px",
-          }}
           required
         />
 
         {/* Submit Button */}
         <button
+          className="login-button"
           type="submit"
           disabled={!username || !password}
-          style={{
-            padding: "10px",
-            backgroundColor: username && password ? "#28a745" : "#ccc",
-            color: "#ffffff",
-            border: "none",
-            borderRadius: "5px",
-            fontWeight: "bold",
-            cursor: username && password ? "pointer" : "not-allowed",
-            transition: "background-color 0.3s",
-          }}
         >
           Login
         </button>

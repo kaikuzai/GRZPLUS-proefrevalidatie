@@ -30,7 +30,6 @@ const FormGrid = () => {
           <div className="grid-label"> {data.name}</div>
         </div>
       ))}
-      ;
     </div>
   );
 };

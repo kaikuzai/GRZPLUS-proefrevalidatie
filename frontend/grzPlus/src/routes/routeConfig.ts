@@ -5,6 +5,7 @@ import DashboardPage from "../pages/DashboardPage";
 import FormPage from "../pages/FormPage";
 import AddPatientPage from "../pages/AddPatientPage";
 import AuthenticationCheck from "../pages/AuthenticationPage";
+import InformationPage from "../pages/InformationPage2";
 
 interface RouteConfig {
     path: string, 
@@ -20,5 +21,6 @@ export const routes: RouteConfig[] = [
     {path: '/add-patient', element: AddPatientPage, isProtected: false},
     {path: '/login', element: LoginPage, isProtected: false},
     {path: '/auth-check', element: AuthenticationCheck, isProtected: false},
+    {path: '/informatie', element: InformationPage , isProtected: false},
 ]
 
