@@ -23,13 +23,18 @@ const useLogoutUser = () => {
     };
 
     try {
-      await apiClient.post<Response>("api/users/logout/", null, config);
-      await Cookies.remove("csrftoken");
       await dispatch(setAuthorizationLogout());
+      const response = await apiClient.post<Response>(
+        "api/users/logout/",
+        null,
+        config
+      );
+
+      console.log("api logout endpoint response: ", response);
     } catch (error: any) {
       console.error("Error logging out:", error);
     } finally {
-      await Cookies.remove("csrftoken");
+      Cookies.remove("csrftoken");
     }
   };
 

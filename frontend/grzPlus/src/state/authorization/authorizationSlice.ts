@@ -31,14 +31,13 @@ const authorizationSlice = createSlice({
             state.role = action.payload.role
         },
         setAuthorizationLogout: (state) => {
-            state = {
-                isAuthenticated: false,
-                role: null, 
-                email: null, 
+                state.isAuthenticated =  false
+                state.role =  null
+                state.email =  null
             }
         },
     }
-});
+);
 
 
 export const { setAuthorizationLogin, setAuthorizationLogout } = authorizationSlice.actions;

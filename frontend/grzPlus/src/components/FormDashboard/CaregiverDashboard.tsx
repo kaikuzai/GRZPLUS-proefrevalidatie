@@ -30,7 +30,6 @@ const useFormResponses = () => {
         setLoading(true);
 
         if (data) {
-          console.log("daaaaata output", data);
           setResponses(data);
         }
       } catch (err) {

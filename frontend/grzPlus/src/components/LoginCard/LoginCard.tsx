@@ -34,6 +34,8 @@ const LoginCard: React.FC = () => {
         case "patient":
           navigate("/formulieren");
           break;
+        case "admin":
+          navigate("/dashboard");
       }
     } else {
       alert("Can't log you in, please try again");

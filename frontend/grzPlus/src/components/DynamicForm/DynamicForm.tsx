@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./DynamicForm.css";
+import styles from "./DynamicForm.module.css";
 import useFormSlug from "../../hooks/useFormSlug";
 import useSubmitForm from "../../hooks/useSubmitForm";
 
@@ -27,8 +28,6 @@ const DynamicForm = () => {
   const { slug } = useParams();
   const { formData, loading, error } = useFormSlug(slug!);
   const { submitForm } = useSubmitForm();
-
-  console.log("formdata: ", formData);
 
   const [values, setValues] = useState<FormValues>({});
   const [errors, setErrors] = useState<string[]>([]);
@@ -93,7 +92,7 @@ const DynamicForm = () => {
         await submitForm(formData.id, formData.name, values);
       }
 
-      alert("Form submitted successfully!");
+      alert("Formulier is succesvol verzonden!");
       // Navigate back to forms page
       navigate("/formulieren");
     } catch (err) {
@@ -151,7 +150,7 @@ const DynamicForm = () => {
                     handleInputChange(field.id, "yes", field.label)
                   }
                 />
-                Yes
+                Ja
               </label>
               <label className="radio-label">
                 <input
@@ -163,11 +162,11 @@ const DynamicForm = () => {
                     handleInputChange(field.id, "no", field.label)
                   }
                 />
-                No
+                Nee
               </label>
             </div>
             {hasError && (
-              <p className="error-message">Please select an option</p>
+              <p className="error-message">Selecteer één van de opties</p>
             )}
           </div>
         );
@@ -207,7 +206,7 @@ const DynamicForm = () => {
           <button type="button" className="clear-button" onClick={handleClear}>
             Formulier Legen
           </button>
-          <button type="submit" className="submit-button">
+          <button type="submit" className={styles.submitButton}>
             Verzenden
           </button>
         </div>
