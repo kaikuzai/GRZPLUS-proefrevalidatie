@@ -13,10 +13,10 @@ from rest_framework.views import APIView
 from rest_framework import permissions, status 
 
 
-from .models import User, PasswordResetToken
+from .models import User, PasswordResetToken, Role
 from .serializers import UserSerializer, SetPasswordSerializer
 
-from emails.views import registration_email, set_password_email
+from emails.views import registration_email, set_password_email_patient, set_password_email_supporter
 
 # Create a generic view to list all users
 class UserListView(generics.ListAPIView):
@@ -86,38 +86,72 @@ class RegisterWithoutPasswordView(APIView):
     def post(self, request, format=None):
         data = self.request.data 
 
+        print("DATA PRINT ******", data)
+
         email = data['email']
-        first_name = data['first_name']
-        last_name = data['last_name']
+        first_name = data['firstName']
+        last_name = data['lastName']
+
+        supporter = data['mantelzorger']
+        supporter_first_name = data['voornaamMantelzorger']
+        supporter_last_name = data['achternaamMantelzorger']
 
         if User.objects.filter(username=email).exists():
             return Response({"detail":'user already exists'}, status=status.HTTP_409_CONFLICT)
         else:
-            user = User.objects.create_user(
+            patient = User.objects.create_user(
                 username=email,
                 password=None, 
                 first_name=first_name, 
                 last_name= last_name
             )
 
-            user.is_active = True 
-            user.set_unusable_password()
-            user.save()
+            patient.is_active = True 
+            patient.set_unusable_password()
 
-            token = PasswordResetToken.objects.create(
-                user=user
+
+
+            try:
+                supporter = User.objects.get(username=supporter, role=Role.SUPPORTER)
+            except User.DoesNotExist:
+                supporter = User.objects.create_user(
+                username=supporter,
+                password=None,
+                first_name=supporter_first_name,
+                last_name=supporter_last_name,   # Add last_name if needed
+                role=Role.SUPPORTER)
+
+                supporter_token = PasswordResetToken.objects.create(user = supporter)
+                supporter_token.save()
+
+                reset_url = f"{settings.FRONTEND_URL}/set-password/{supporter_token.token}"
+
+                context =  context = {
+                    'supporter_first_name': supporter.first_name, 
+                    'reset_url': reset_url, 
+                }
+
+                set_password_email_supporter(supporter, context=context)
+
+            patient.supporter = supporter 
+            
+            patient.save()
+                
+            patient_token = PasswordResetToken.objects.create(
+                user=patient
             )
 
-            token.save()
 
-            reset_url = f"{settings.FRONTEND_URL}/set-password/{token.token}"
+            patient_token.save()
+
+            reset_url = f"{settings.FRONTEND_URL}/set-password/{patient_token.token}"
 
             context = {
-                'first_name': user.first_name, 
+                'first_name': patient.first_name, 
                 'reset_url': reset_url, 
             }
 
-            set_password_email(user, context=context)
+            set_password_email_patient(patient, context=context)
 
             return Response({'response': 'Succeeded'})
 

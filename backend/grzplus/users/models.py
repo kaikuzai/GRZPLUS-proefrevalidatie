@@ -10,10 +10,11 @@ class Role(models.TextChoices):
     ADMIN = 'admin', 'Administrator'
     CAREGIVER = 'caregiver', 'Caregiver'
     PATIENT = 'patient', 'Patient'
+    SUPPORTER = 'supporter', 'Supporter'
 
 class User(AbstractUser):
     role = models.CharField(
-        max_length=10,
+        max_length=16,
         choices=Role.choices,
         default=Role.PATIENT,
     )
@@ -29,11 +30,22 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=30, blank=True)
 
     # Fields for Patient
+    email_supporter = models.EmailField(max_length=255, blank=True)
     street_address = models.CharField(max_length=255, blank=True)
     city = models.CharField(max_length=100, blank=True)
     state = models.CharField(max_length=100, blank=True)
     zip_code = models.CharField(max_length=10, blank=True)
     bsn = models.CharField(max_length=10, blank=True)
+
+    supporter = models.ForeignKey(
+        'self', 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True, 
+        related_name='patients',  # Allows reverse lookup of all patients connected to this mantelzorger
+        limit_choices_to={'role': Role.SUPPORTER}  # Only allow 'mantelzorger' users to be selected
+    )
+
 
     def save(self, *args, **kwargs):
         if self.username:
@@ -58,4 +70,7 @@ class PasswordResetToken(models.Model):
 
     def is_valid(self):
         return not self.is_used and self.expires_at > timezone.now()
+    
+    def __str__(self):
+        return f"Reset token belonging to {self.user}"
 

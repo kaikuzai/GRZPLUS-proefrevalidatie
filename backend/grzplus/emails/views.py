@@ -33,11 +33,77 @@ def registration_email(user, context):
         print(e)
         return False
     
-def set_password_email(user, context: dict):
+def set_password_email_patient(user, context: dict):
     try:
         subject = "GRZ Revalidatie wachtwoord"
 
         print("this is the context", context)
+
+        html_message = render_to_string("content/email-registration.html", context=context)
+        plain_message = strip_tags(html_message)
+
+        message = EmailMultiAlternatives(
+            subject=subject, 
+            body=plain_message,
+            from_email=None,
+            to=["dylan.okyere@gmail.com"],
+        )
+
+        message.attach_alternative(html_message, "text/html")
+        message.send()
+
+        return True 
+    except Exception as e: 
+        print(e)
+        return False
+    
+def set_password_email_supporter(user, context: dict):
+    try:
+        subject = "GRZ Revalidatie wachtwoord"
+
+        html_message = render_to_string("content/email-registration.html", context=context)
+        plain_message = strip_tags(html_message)
+
+        message = EmailMultiAlternatives(
+            subject=subject, 
+            body=plain_message,
+            from_email=None,
+            to=["dylan.okyere@gmail.com"],
+        )
+
+        message.attach_alternative(html_message, "text/html")
+        message.send()
+
+        return True 
+    except Exception as e: 
+        print(e)
+        return False
+    
+def set_password_email_caregiver(user, context: dict):
+    try:
+        subject = "GRZ Revalidatie wachtwoord"
+
+        html_message = render_to_string("content/email-registration.html", context=context)
+        plain_message = strip_tags(html_message)
+
+        message = EmailMultiAlternatives(
+            subject=subject, 
+            body=plain_message,
+            from_email=None,
+            to=["dylan.okyere@gmail.com"],
+        )
+
+        message.attach_alternative(html_message, "text/html")
+        message.send()
+
+        return True 
+    except Exception as e: 
+        print(e)
+        return False
+    
+def set_password_email_admin(user, context: dict):
+    try:
+        subject = "GRZ Revalidatie wachtwoord"
 
         html_message = render_to_string("content/email-registration.html", context=context)
         plain_message = strip_tags(html_message)
