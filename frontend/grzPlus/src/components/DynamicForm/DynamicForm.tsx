@@ -75,6 +75,17 @@ const DynamicForm = () => {
       ) {
         newErrors.push(field.id);
       }
+
+      // Validate explanation fields for yes answers
+      if (field.type === "yesno" && values[field.id]?.value === "yes") {
+        const explanationId = `${field.id}_explanation`;
+        if (
+          !values[explanationId] ||
+          values[explanationId].value.trim() === ""
+        ) {
+          newErrors.push(explanationId);
+        }
+      }
     });
 
     if (newErrors.length > 0) {
@@ -84,20 +95,26 @@ const DynamicForm = () => {
 
     // Submit form data with labels included
     try {
-      // This would be your API call in a real app
-      console.log("Submitting form data:", values);
+      console.log("Preparing to submit form data");
 
-      // Mock API call
+      // Submit form if we have the required data
       if (formData?.name && formData?.id) {
-        await submitForm(formData.id, formData.name, values);
-      }
+        console.log("Form values before submission:", values);
+        const succeeded = await submitForm(formData.id, formData.name, values);
 
-      alert("Formulier is succesvol verzonden!");
-      // Navigate back to forms page
-      navigate("/formulieren");
+        if (succeeded) {
+          alert("Formulier is succesvol verzonden!");
+          // Navigate back to forms page
+          navigate("/formulieren");
+        } else {
+          alert("Er ging wat mis bij het verzenden van je formulier");
+        }
+      }
     } catch (err) {
       console.error("Error submitting form:", err);
-      alert("Failed to submit form. Please try again.");
+      alert(
+        "Er is een onverwachte fout opgetreden. Probeer het later opnieuw."
+      );
     }
   };
 
@@ -130,43 +147,75 @@ const DynamicForm = () => {
         );
 
       case "yesno":
+        const showExplanation = values[field.id]?.value === "yes";
+        const explanationId = `${field.id}_explanation`;
+        const explanationHasError = errors.includes(explanationId);
+
         return (
-          <div
-            className={`form-field ${hasError ? "error" : ""}`}
-            key={field.id}
-          >
-            <label>
-              {field.label}
-              {field.required && <span className="required">*</span>}
-            </label>
-            <div className="radio-group">
-              <label className="radio-label">
-                <input
-                  type="radio"
-                  name={field.id}
-                  value="yes"
-                  checked={values[field.id]?.value === "yes"}
-                  onChange={() =>
-                    handleInputChange(field.id, "yes", field.label)
-                  }
-                />
-                Ja
+          <div key={field.id}>
+            <div className={`form-field ${hasError ? "error" : ""}`}>
+              <label>
+                {field.label}
+                {field.required && <span className="required">*</span>}
               </label>
-              <label className="radio-label">
-                <input
-                  type="radio"
-                  name={field.id}
-                  value="no"
-                  checked={values[field.id]?.value === "no"}
-                  onChange={() =>
-                    handleInputChange(field.id, "no", field.label)
-                  }
-                />
-                Nee
-              </label>
+              <div className="radio-group">
+                <label className="radio-label">
+                  <input
+                    type="radio"
+                    name={field.id}
+                    value="yes"
+                    checked={values[field.id]?.value === "yes"}
+                    onChange={() =>
+                      handleInputChange(field.id, "yes", field.label)
+                    }
+                  />
+                  Ja
+                </label>
+                <label className="radio-label">
+                  <input
+                    type="radio"
+                    name={field.id}
+                    value="no"
+                    checked={values[field.id]?.value === "no"}
+                    onChange={() =>
+                      handleInputChange(field.id, "no", field.label)
+                    }
+                  />
+                  Nee
+                </label>
+              </div>
+              {hasError && (
+                <p className="error-message">Selecteer één van de opties</p>
+              )}
             </div>
-            {hasError && (
-              <p className="error-message">Selecteer één van de opties</p>
+
+            {/* Explanation field that appears when "yes" is selected */}
+            {showExplanation && (
+              <div
+                className={`form-field ${explanationHasError ? "error" : ""}`}
+              >
+                <label htmlFor={explanationId}>
+                  Toelichting
+                  <span className="required">*</span>
+                </label>
+                <input
+                  type="text"
+                  id={explanationId}
+                  placeholder="Geef een toelichting waarom u 'Ja' heeft geantwoord"
+                  value={values[explanationId]?.value || ""}
+                  onChange={(e) =>
+                    handleInputChange(
+                      explanationId,
+                      e.target.value,
+                      `Toelichting: ${field.label}`
+                    )
+                  }
+                  className={explanationHasError ? "error-input" : ""}
+                />
+                {explanationHasError && (
+                  <p className="error-message">Toelichting is verplicht</p>
+                )}
+              </div>
             )}
           </div>
         );
