@@ -207,7 +207,7 @@ const DynamicForm = () => {
                     handleInputChange(
                       explanationId,
                       e.target.value,
-                      `Toelichting: ${field.label}`
+                      `Toelichting - ${field.label}`
                     )
                   }
                   className={explanationHasError ? "error-input" : ""}

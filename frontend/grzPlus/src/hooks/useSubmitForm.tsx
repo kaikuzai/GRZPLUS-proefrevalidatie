@@ -93,10 +93,6 @@ const useSubmitForm = (): UseSubmitFormResult => {
         config
       );
 
-      if (response.data.response == "Succeeded") {
-        throw new Error(`API responded with status: ${response.status}`);
-      }
-
       const data = await response.data.response;
       console.log("Form submitted successfully:", data);
 

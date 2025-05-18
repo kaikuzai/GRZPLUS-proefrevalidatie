@@ -62,34 +62,55 @@ const FormResponseDetail: React.FC<FormResponseDetailProps> = ({
 
   // Format key for display (convert camelCase or snake_case to Title Case)
   const formatKey = (key: string) => {
-    // Remove common prefixes if presents
     const cleanKey = key.replace(/^(is|has|should|can)/, "");
 
-    // Handle snake_case and camelCase
-    return (
-      cleanKey
-        // Add space before capital letters for camelCase
-        .replace(/([A-Z])/g, " $1")
-        // Replace underscores with spaces for snake_case
-        .replace(/_/g, " ")
-        // Make first character uppercase and trim
-        .replace(/^\w/, (c) => c.toUpperCase())
-        .trim()
-    );
+    return cleanKey
+      .replace(/([A-Z])/g, " $1")
+      .replace(/_/g, " ")
+      .replace(/^\w/, (c) => c.toUpperCase())
+      .trim();
   };
 
   // Format answer for display based on assumed question type
   const formatAnswer = (key: string, value: string) => {
-    // Format yes/no answers for readability
     if (value.toLowerCase() === "yes" || value.toLowerCase() === "no") {
       return value.charAt(0).toUpperCase() + value.slice(1);
     }
 
-    // Handle boolean-like values
     if (value.toLowerCase() === "true") return "Yes";
     if (value.toLowerCase() === "false") return "No";
 
     return value;
+  };
+
+  // Get answers starting with "Toelichting -"
+  const getToelichtingAnswers = (): { [key: string]: string } => {
+    const toelichtingAnswers: { [key: string]: string } = {};
+
+    Object.entries(answersObject).forEach(([key, value]) => {
+      if (key.startsWith("Toelichting -")) {
+        toelichtingAnswers[key] = value;
+      }
+    });
+
+    return toelichtingAnswers;
+  };
+
+  const toelichtingAnswers = getToelichtingAnswers();
+
+  // Handle copy to clipboard
+  const copyToClipboard = () => {
+    const toelichtingText = Object.entries(toelichtingAnswers)
+      .map(([key, value]) => {
+        // Remove "Toelichting -" from the key before formatting
+        const cleanKey = key.replace("Toelichting -", "").trim();
+        return `${formatKey(cleanKey)}: ${value}`;
+      })
+      .join("\n");
+
+    navigator.clipboard.writeText(toelichtingText).then(() => {
+      alert("Samenvatting is gekopieerd");
+    });
   };
 
   return (
@@ -119,6 +140,25 @@ const FormResponseDetail: React.FC<FormResponseDetailProps> = ({
           {Object.entries(answersObject).map(([key, value]) => (
             <div className="answer-item" key={key}>
               <div className="answer-label">{formatKey(key)}:</div>
+              <div className="answer-value">{formatAnswer(key, value)}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="response-content-extra">
+        <div className="header-area">
+          <h2>Samenvatting</h2>
+          <button onClick={copyToClipboard} className="copy-button">
+            Kopieer
+          </button>
+        </div>
+        <div className="answer-container">
+          {Object.entries(toelichtingAnswers).map(([key, value]) => (
+            <div className="answer-item" key={key}>
+              <div className="answer-label">
+                {formatKey(key).replace("Toelichting -", "")}:
+              </div>
               <div className="answer-value">{formatAnswer(key, value)}</div>
             </div>
           ))}

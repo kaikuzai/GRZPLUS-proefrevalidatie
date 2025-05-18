@@ -4,18 +4,25 @@ import axios from "axios";
 import "../styles/AdminInviteUserPage.css";
 import apiClient from "../services/api-client";
 import Navbar from "../components/Navbar/Navbar";
+import { fetchOrReplaceCSRF } from "../services/Cookies/CSRFToken";
 
 interface InviteUserForm {
   email: string;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
+  mantelzorger: string;
+  voornaamMantelzorger: string;
+  achternaamMantelzorger: string;
 }
 
 const AdminInviteUserPage: React.FC = () => {
   const [form, setForm] = useState<InviteUserForm>({
     email: "",
-    first_name: "",
-    last_name: "",
+    firstName: "",
+    lastName: "",
+    mantelzorger: "",
+    voornaamMantelzorger: "",
+    achternaamMantelzorger: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -34,6 +41,7 @@ const AdminInviteUserPage: React.FC = () => {
     setLoading(true);
 
     try {
+      fetchOrReplaceCSRF();
       const response = await apiClient.post("/api/users/invite-user/", form, {
         headers: {
           "Content-Type": "application/json",
@@ -45,8 +53,11 @@ const AdminInviteUserPage: React.FC = () => {
       // Reset form
       setForm({
         email: "",
-        first_name: "",
-        last_name: "",
+        firstName: "",
+        lastName: "",
+        mantelzorger: "",
+        voornaamMantelzorger: "",
+        achternaamMantelzorger: "",
       });
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
@@ -74,7 +85,7 @@ const AdminInviteUserPage: React.FC = () => {
           <div className="admin-form-container">
             <div className="form-group">
               <label htmlFor="email" className="form-label">
-                Email
+                * Email
               </label>
               <input
                 type="email"
@@ -88,14 +99,14 @@ const AdminInviteUserPage: React.FC = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="first_name" className="form-label">
-                Voornaam
+              <label htmlFor="firstName" className="form-label">
+                * Voornaam
               </label>
               <input
                 type="text"
-                id="first_name"
-                name="first_name"
-                value={form.first_name}
+                id="firstName"
+                name="firstName"
+                value={form.firstName}
                 onChange={handleChange}
                 className="form-input"
                 required
@@ -103,14 +114,59 @@ const AdminInviteUserPage: React.FC = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="last_name" className="form-label">
-                Achternaam
+              <label htmlFor="lastName" className="form-label">
+                * Achternaam
               </label>
               <input
                 type="text"
-                id="last_name"
-                name="last_name"
-                value={form.last_name}
+                id="lastName"
+                name="lastName"
+                value={form.lastName}
+                onChange={handleChange}
+                className="form-input"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="mantelzorger" className="form-label">
+                * Email Mantelzorger
+              </label>
+              <input
+                type="email"
+                id="mantelzorger"
+                name="mantelzorger"
+                value={form.mantelzorger}
+                onChange={handleChange}
+                className="form-input"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="voornaamMantelzorger" className="form-label">
+                * Voornaam Mantelzorger
+              </label>
+              <input
+                type="text"
+                id="voornaamMantelzorger"
+                name="voornaamMantelzorger"
+                value={form.voornaamMantelzorger}
+                onChange={handleChange}
+                className="form-input"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="achternaamMantelzorger" className="form-label">
+                * Achternaam Mantelzorger
+              </label>
+              <input
+                type="text"
+                id="achternaamMantelzorger"
+                name="achternaamMantelzorger"
+                value={form.achternaamMantelzorger}
                 onChange={handleChange}
                 className="form-input"
                 required
