@@ -14,6 +14,7 @@ class Form(models.Model):
     image = models.CharField(max_length=255, default="trap.jpg")
     slug = models.CharField(max_length=255, unique=True, default="form-slug")
     description = models.TextField(blank=True, null=True)
+    rating = models.TextField(blank=True)
 
     fields = models.ManyToManyField(FormField, related_name='forms')
 

@@ -86,7 +86,6 @@ class RegisterWithoutPasswordView(APIView):
     def post(self, request, format=None):
         data = self.request.data 
 
-        print("DATA PRINT ******", data)
 
         email = data['email']
         first_name = data['firstName']
