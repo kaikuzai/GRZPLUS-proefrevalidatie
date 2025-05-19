@@ -58,12 +58,14 @@ export default function Navbar({
           { to: "/dashboard", label: "Dashboard" },
           // { to: "/formulier-maken", label: "Creëer formulier" },
           { to: "/add-user", label: "Patient toevoegen" },
+          { to: "/patienten", label: "Patient Overzicht" },
           { to: pathname, label: "Logout", func: handleLogout },
         ]
       : userRole === "admin"
       ? [
           { to: "/", label: "Home" },
           { to: "/add-user", label: "Revalidant toevoegen" },
+          { to: "/patienten", label: "Patient Overzicht" },
           { to: "/dashboard", label: "Dashboard" },
           { to: pathname, label: "Logout", func: handleLogout },
         ]
