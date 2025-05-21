@@ -37,7 +37,6 @@ def set_password_email_patient(user, context: dict):
     try:
         subject = "GRZ Revalidatie wachtwoord"
 
-        print("this is the context", context)
 
         html_message = render_to_string("content/email-registration.html", context=context)
         plain_message = strip_tags(html_message)

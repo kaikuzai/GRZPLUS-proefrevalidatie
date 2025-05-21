@@ -54,16 +54,22 @@ export default function Navbar({
         ]
       : userRole === "caregiver"
       ? [
-          { to: "/", label: "Home" },
           { to: "/dashboard", label: "Dashboard" },
           // { to: "/formulier-maken", label: "Creëer formulier" },
           { to: "/add-user", label: "Patient toevoegen" },
+          { to: "/patienten", label: "Patient Overzicht" },
           { to: pathname, label: "Logout", func: handleLogout },
+        ]
+      : userRole === "supporter"
+      ? [
+        { to: "/", label: "Home" },
+        { to: "/formulieren", label: "Formulieren" },
+        { to: pathname, label: "Logout", func: handleLogout },
         ]
       : userRole === "admin"
       ? [
-          { to: "/", label: "Home" },
           { to: "/add-user", label: "Revalidant toevoegen" },
+          { to: "/patienten", label: "Patient Overzicht" },
           { to: "/dashboard", label: "Dashboard" },
           { to: pathname, label: "Logout", func: handleLogout },
         ]

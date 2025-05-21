@@ -23,6 +23,23 @@ class UserListView(generics.ListAPIView):
     queryset = User.objects.all()  # Get all users
     serializer_class = UserSerializer 
 
+    def get(self, request, *args, **kwargs):
+        queryset = User.objects.all()
+
+        user_role = request.query_params.get('role')
+        if user_role:
+            queryset = queryset.filter(role=user_role)
+
+        user_id = request.query_params.get('user_id')
+        if user_id:
+            queryset = queryset.filter(id=int(user_id))
+        
+        serializer = UserSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+
+
+
 
 # Login view 
 class LoginView(APIView):

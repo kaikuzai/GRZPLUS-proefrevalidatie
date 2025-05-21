@@ -8,6 +8,8 @@ import AuthenticationCheck from "../pages/AuthenticationPage";
 import InformationPage from "../pages/InformationPage2";
 import SetPasswordPage from "../pages/SetPasswordPage";
 import AdminInviteUserPage from "../pages/AdminInviteUserPage";
+import PatientListView from "../components/PatientView/PatientListView/PatientListView";
+import PatientOverviewPage from "../pages/PatientOverviewPage";
 
 interface RouteConfig {
     path: string, 
@@ -26,5 +28,6 @@ export const routes: RouteConfig[] = [
     {path: '/informatie', element: InformationPage , isProtected: false},
     {path: '/set-password/:token', element: SetPasswordPage , isProtected: false},
     {path: '/add-user', element: AdminInviteUserPage , isProtected: false},
+    {path: '/patienten/', element: PatientOverviewPage , isProtected: false},
 ]
 

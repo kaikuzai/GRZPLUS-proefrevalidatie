@@ -96,6 +96,5 @@ class SubmittedFormListView(APIView):
         
 
         serializer = FormResponseSerializer(submitted_forms, many=True)
-        print("sippy cup",serializer.data)
         
         return Response(serializer.data, status=status.HTTP_200_OK)

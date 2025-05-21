@@ -31,6 +31,9 @@ const LoginCard: React.FC = () => {
         case "caregiver":
           navigate("/dashboard");
           break;
+        case "supporter":
+          navigate("/formulieren");
+          break;
         case "patient":
           navigate("/formulieren");
           break;
