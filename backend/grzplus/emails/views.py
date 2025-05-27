@@ -60,7 +60,8 @@ def set_password_email_supporter(user, context: dict):
     try:
         subject = "GRZ Revalidatie wachtwoord"
 
-        html_message = render_to_string("content/email-registration.html", context=context)
+        html_message = render_to_string("content/email-register-supporter.html", context=context)
+
         plain_message = strip_tags(html_message)
 
         message = EmailMultiAlternatives(

@@ -1,6 +1,7 @@
 // src/pages/admin/InviteUserPage.tsx
 import React, { useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 import "../styles/AdminInviteUserPage.css";
 import apiClient from "../services/api-client";
 import Navbar from "../components/Navbar/Navbar";
@@ -45,7 +46,7 @@ const CaregiverInviteUserPage: React.FC = () => {
       const response = await apiClient.post("/api/users/invite-user/", form, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming JWT auth
+          "X-CSRFToken": Cookies.get("csrftoken"),
         },
       });
 

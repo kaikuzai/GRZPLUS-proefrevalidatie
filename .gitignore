@@ -4,3 +4,5 @@
 /backend/db.sqlite3
 /backend/*/*/__pycache__/
 /backend/grzplus/.env
+/backend/grzplus/db.sqlite3
+backend/grzplus/db.sqlite3
