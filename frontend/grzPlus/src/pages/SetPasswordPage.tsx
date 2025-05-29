@@ -77,10 +77,10 @@ const SetPasswordPage: React.FC = () => {
 
       if (result.success) {
         setSuccess(true);
-        // Redirect to login page after 3 seconds
+        // Navigate to onboarding after showing success message
         setTimeout(() => {
-          navigate("/login");
-        }, 3000);
+          navigate("/onboarding");
+        }, 2000);
       } else {
         setError(result.message);
       }
@@ -116,12 +116,16 @@ const SetPasswordPage: React.FC = () => {
     return (
       <div className="set-password-container">
         <div className="set-password-card">
+          <div className="success-icon">✅</div>
           <h1 className="set-password-title">
-            Je wachtwoord is succesvol ingesteld
+            Wachtwoord succesvol ingesteld!
           </h1>
           <div className="success-message">
-            Je wachtwoord is succesvol ingesteld. We navigeren je nu door om in
-            te loggen
+            Je wachtwoord is succesvol ingesteld. We leiden je nu door naar een
+            korte rondleiding...
+          </div>
+          <div className="loading-indicator">
+            <div className="spinner"></div>
           </div>
         </div>
       </div>

@@ -210,6 +210,141 @@
   .confirm-button:hover {
     background-color: #c0392b;
   }
+
+ /* Alert Modal Specific Styling - Add this to your DynamicForm.css */
+
+/* Success alert styling */
+.modal.success-alert {
+  background: linear-gradient(135deg, #f8f9ff 0%, #e8f5e8 100%);
+  border: 2px solid #2ecc71;
+  animation: successPulse 0.6s ease-out;
+}
+
+.modal.success-alert h3 {
+  color: #27ae60;
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.modal.success-alert p {
+  text-align: center;
+  color: #2c3e50;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 25px;
+}
+
+.success-button {
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 25px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.success-button:hover {
+  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+}
+
+.success-button:active {
+  transform: translateY(0);
+}
+
+/* Error alert styling */
+.modal.error-alert {
+  background: linear-gradient(135deg, #fff8f8 0%, #ffe8e8 100%);
+  border: 2px solid #e74c3c;
+}
+
+.modal.error-alert h3 {
+  color: #c0392b;
+  text-align: center;
+}
+
+.modal.error-alert p {
+  text-align: center;
+  color: #2c3e50;
+}
+
+.error-button {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.error-button:hover {
+  background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
+  transform: translateY(-1px);
+}
+
+/* Add icon support for alerts */
+.alert-icon {
+  font-size: 64px;
+  text-align: center;
+  margin-bottom: 20px;
+  animation: bounce 1s ease-in-out infinite alternate;
+}
+
+.alert-icon.success {
+  color: #2ecc71;
+}
+
+.alert-icon.error {
+  color: #e74c3c;
+}
+
+/* Animations */
+@keyframes successPulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Enhanced modal overlay animation */
+.modal-overlay {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
   
   /* Responsive adjustments */
   @media screen and (max-width: 768px) {

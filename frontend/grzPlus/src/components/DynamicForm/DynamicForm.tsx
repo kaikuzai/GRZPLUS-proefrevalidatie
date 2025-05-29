@@ -4,6 +4,7 @@ import "./DynamicForm.css";
 import styles from "./DynamicForm.module.css";
 import useFormSlug from "../../hooks/useFormSlug";
 import useSubmitForm from "../../hooks/useSubmitForm";
+import TextSizeController from "../TextSizeController/TextSizeController";
 
 // Form field types
 interface FormField {
@@ -22,6 +23,14 @@ interface FormValues {
   };
 }
 
+// Alert modal interface
+interface AlertModal {
+  show: boolean;
+  type: "success" | "error";
+  title: string;
+  message: string;
+}
+
 const DynamicForm = () => {
   const navigate = useNavigate();
 
@@ -32,6 +41,34 @@ const DynamicForm = () => {
   const [values, setValues] = useState<FormValues>({});
   const [errors, setErrors] = useState<string[]>([]);
   const [showClearConfirm, setShowClearConfirm] = useState<boolean>(false);
+  const [alertModal, setAlertModal] = useState<AlertModal>({
+    show: false,
+    type: "success",
+    title: "",
+    message: "",
+  });
+
+  const showAlert = (
+    type: "success" | "error",
+    title: string,
+    message: string
+  ) => {
+    setAlertModal({
+      show: true,
+      type,
+      title,
+      message,
+    });
+  };
+
+  const closeAlert = () => {
+    setAlertModal((prev) => ({ ...prev, show: false }));
+
+    // If it was a success alert, navigate back to forms page
+    if (alertModal.type === "success") {
+      navigate("/formulieren");
+    }
+  };
 
   const handleInputChange = (fieldId: string, value: string, label: string) => {
     setValues((prev) => ({
@@ -103,16 +140,24 @@ const DynamicForm = () => {
         const succeeded = await submitForm(formData.id, formData.name, values);
 
         if (succeeded) {
-          alert("Formulier is succesvol verzonden!");
-          // Navigate back to forms page
-          navigate("/formulieren");
+          showAlert(
+            "success",
+            "🎊 Fantastisch Gedaan! 🎊",
+            "Je formulier is perfect ingevuld en succesvol verzonden! Je bent een stap dichter bij je doel. Blijf zo doorgaan! 💪"
+          );
         } else {
-          alert("Er ging wat mis bij het verzenden van je formulier");
+          showAlert(
+            "error",
+            "Verzending Mislukt",
+            "Er ging wat mis bij het verzenden van je formulier. Probeer het opnieuw."
+          );
         }
       }
     } catch (err) {
       console.error("Error submitting form:", err);
-      alert(
+      showAlert(
+        "error",
+        "Onverwachte Fout",
         "Er is een onverwachte fout opgetreden. Probeer het later opnieuw."
       );
     }
@@ -239,6 +284,7 @@ const DynamicForm = () => {
 
   return (
     <div className="dynamic-form-container">
+      <TextSizeController />
       <h1 className="form-title">{formData.name}</h1>
 
       <button
@@ -261,6 +307,7 @@ const DynamicForm = () => {
         </div>
       </form>
 
+      {/* Clear Confirmation Modal */}
       {showClearConfirm && (
         <div className="modal-overlay">
           <div className="modal">
@@ -275,6 +322,36 @@ const DynamicForm = () => {
               </button>
               <button onClick={confirmClear} className="confirm-button">
                 Legen
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Custom Alert Modal */}
+      {alertModal.show && (
+        <div className="modal-overlay">
+          <div className={`modal ${alertModal.type}-alert`}>
+            {alertModal.type === "success" && (
+              <div className="alert-icon success">🎉</div>
+            )}
+            {alertModal.type === "error" && (
+              <div className="alert-icon error">⚠️</div>
+            )}
+            <h3>{alertModal.title}</h3>
+            <p>{alertModal.message}</p>
+            <div className="modal-actions">
+              <button
+                onClick={closeAlert}
+                className={
+                  alertModal.type === "success"
+                    ? "success-button"
+                    : "error-button"
+                }
+              >
+                {alertModal.type === "success"
+                  ? "🚀 Geweldig!"
+                  : "Probeer Opnieuw"}
               </button>
             </div>
           </div>

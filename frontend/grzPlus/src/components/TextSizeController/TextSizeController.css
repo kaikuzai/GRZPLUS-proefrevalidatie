@@ -1,0 +1,167 @@
+/* TextSizeController.css */
+
+.text-size-controller {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  background-color: #f8f9fa;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  max-width: 320px;
+  margin-bottom: 20px;
+}
+
+.text-size-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 80px;
+}
+
+.label-text {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.size-indicator {
+  font-size: 14px;
+  color: #334155;
+  font-weight: 600;
+}
+
+.text-size-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.size-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px;
+  border: 2px solid #cbd5e1;
+  border-radius: 6px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.size-button:hover:not(:disabled) {
+  background-color: #f1f5f9;
+  border-color: #94a3b8;
+  transform: translateY(-1px);
+}
+
+.size-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.size-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #f8fafc;
+}
+
+.size-button.decrease {
+  border-color: #fbbf24;
+  color: #d97706;
+}
+
+.size-button.decrease:hover:not(:disabled) {
+  background-color: #fef3c7;
+  border-color: #f59e0b;
+}
+
+.size-button.increase {
+  border-color: #2ecc71;
+  color: #27ae60;
+}
+
+.size-button.increase:hover:not(:disabled) {
+  background-color: #d1fae5;
+  border-color: #2ecc71;
+}
+
+.size-button.reset {
+  border-color: #94a3b8;
+  color: #475569;
+}
+
+.size-button.reset:hover:not(:disabled) {
+  background-color: #f1f5f9;
+  border-color: #64748b;
+}
+
+.button-text {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.size-button.decrease .button-text {
+  font-size: 12px;
+}
+
+.size-button.increase .button-text {
+  font-size: 16px;
+}
+
+/* Mobile responsive - matches your existing breakpoint */
+@media screen and (max-width: 768px) {
+  .text-size-controller {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+    max-width: 100%;
+  }
+
+  .text-size-label {
+    text-align: center;
+    min-width: auto;
+  }
+
+  .text-size-controls {
+    justify-content: center;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .text-size-controller {
+    border-width: 2px;
+    border-color: #000;
+  }
+
+  .size-button {
+    border-width: 2px;
+    border-color: #000;
+  }
+
+  .size-button:hover:not(:disabled) {
+    background-color: #000;
+    color: #fff;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .size-button {
+    transition: none;
+  }
+
+  .size-button:hover:not(:disabled) {
+    transform: none;
+  }
+
+  .size-button:active:not(:disabled) {
+    transform: none;
+  }
+}
