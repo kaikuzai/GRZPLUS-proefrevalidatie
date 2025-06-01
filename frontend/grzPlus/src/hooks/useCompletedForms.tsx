@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 import { AxiosError } from "axios";
+import { useSelector } from "react-redux";
+import type { Rootstate } from "../state/store";
 
 interface SubmittedForm {
   id: number;
@@ -20,6 +22,8 @@ interface FormIcon {
 }
 
 const useCompletedForms = () => {
+  const user_id = useSelector((state: Rootstate) => state.authorization.id);
+
   const [completedFormSlugs, setCompletedFormSlugs] = useState<string[]>([]);
   const [error, setError] = useState<AxiosError | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -31,7 +35,7 @@ const useCompletedForms = () => {
 
         // Fetch submitted forms for the current user
         const submittedResponse = await apiClient.get<SubmittedForm[]>(
-          "api/forms/submitted/"
+          `api/forms/submitted/?user_id=${user_id}`
         );
 
         // Fetch all available forms to map form IDs to slugs

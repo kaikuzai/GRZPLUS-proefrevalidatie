@@ -1,6 +1,5 @@
 import { useState } from "react";
 import apiClient from "../services/api-client";
-import Cookies from "js-cookie";
 
 // Form values structure as used in your DynamicForm component
 interface FormValueItem {
@@ -81,7 +80,6 @@ const useSubmitForm = (): UseSubmitFormResult => {
       const config = {
         headers: {
           "Content-Type": "application/json",
-          "X-CSRFToken": Cookies.get("csrftoken"),
         },
       };
 

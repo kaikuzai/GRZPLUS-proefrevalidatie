@@ -4,7 +4,6 @@ import axios from "axios";
 import "../styles/AdminInviteUserPage.css";
 import apiClient from "../services/api-client";
 import Navbar from "../components/Navbar/Navbar";
-import { fetchOrReplaceCSRF } from "../services/Cookies/CSRFToken";
 
 interface InviteUserForm {
   email: string;
@@ -41,7 +40,6 @@ const AdminInviteUserPage: React.FC = () => {
     setLoading(true);
 
     try {
-      fetchOrReplaceCSRF();
       const response = await apiClient.post("/api/users/invite-user/", form, {
         headers: {
           "Content-Type": "application/json",

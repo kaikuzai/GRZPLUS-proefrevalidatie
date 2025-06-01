@@ -79,7 +79,7 @@ const SetPasswordPage: React.FC = () => {
         setSuccess(true);
         // Navigate to onboarding after showing success message
         setTimeout(() => {
-          navigate("/onboarding");
+          navigate("/rondleiding");
         }, 2000);
       } else {
         setError(result.message);

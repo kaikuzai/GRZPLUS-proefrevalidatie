@@ -2,7 +2,6 @@
 from django.urls import path
 from .views import FormIDDetailView, SubmitFormView, FormListView, FormIconView, FormSlugDetailView, SubmittedFormListView
 
-# path('csrf-cookie/', GetCSRFToken.as_view(), name='csrf-cookie'), 
 urlpatterns = [
     path('by-id/<int:form_id>/', FormIDDetailView.as_view(), name='form-detail-view'),
     path('by-slug/<str:form_slug>/', FormSlugDetailView.as_view(), name='form-detail-view'),

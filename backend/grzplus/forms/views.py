@@ -34,6 +34,11 @@ class FormListView(APIView):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
+@method_decorator(csrf_exempt, name='dispatch')
 class FormIconView(APIView):
     def get(self, request):
         forms = Form.objects.all()
