@@ -142,8 +142,8 @@ const DynamicForm = () => {
         if (succeeded) {
           showAlert(
             "success",
-            "🎊 Fantastisch Gedaan! 🎊",
-            "Je formulier is perfect ingevuld en succesvol verzonden! Je bent een stap dichter bij je doel. Blijf zo doorgaan! 💪"
+            "Fantastisch Gedaan!",
+            "Je formulier is perfect ingevuld en succesvol verzonden! We kunnen nu jouw formulier inzien. Blijf zo doorgaan!"
           );
         } else {
           showAlert(
@@ -333,7 +333,7 @@ const DynamicForm = () => {
         <div className="modal-overlay">
           <div className={`modal ${alertModal.type}-alert`}>
             {alertModal.type === "success" && (
-              <div className="alert-icon success">🎉</div>
+              <div className="alert-icon success"></div>
             )}
             {alertModal.type === "error" && (
               <div className="alert-icon error">⚠️</div>
@@ -349,9 +349,7 @@ const DynamicForm = () => {
                     : "error-button"
                 }
               >
-                {alertModal.type === "success"
-                  ? "🚀 Geweldig!"
-                  : "Probeer Opnieuw"}
+                {alertModal.type === "success" ? "Doorgaan" : "Probeer Opnieuw"}
               </button>
             </div>
           </div>
