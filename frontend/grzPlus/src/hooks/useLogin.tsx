@@ -1,52 +1,50 @@
 import apiClient from "../services/api-client";
-import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setAuthorizationLogin } from "../state/authorization/authorizationSlice";
-import { fetchOrReplaceCSRF } from "../services/Cookies/CSRFToken";
 
-interface Response {
-  response: string;
+interface LoginResponse {
+  access: string;
+  refresh: string;
   role?: string;
   email?: string;
   name?: string;
+  id?: string;
 }
 
 const useLoginUser = () => {
   const dispatch = useDispatch();
 
   const login = async (username: string, password: string) => {
-    await fetchOrReplaceCSRF();
     const body = { username, password };
 
-    const config = {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "X-CSRFToken": Cookies.get("csrftoken"),
-      },
-    };
-
     try {
-      const response = await apiClient.post<Response>(
+      const response = await apiClient.post<LoginResponse>(
         "api/users/login/",
-        body,
-        config
+        body
       );
-      if (response.data.response === "Succeeded") {
-        if (response.data.email && response.data.role) {
-          await dispatch(
-            setAuthorizationLogin({
-              isAuthenticated: true,
-              email: response.data.email,
-              role: response.data.role,
-            })
-          );
-        }
+
+      const { access, refresh, role, email, name, id } = response.data;
+
+      // Store tokens
+      localStorage.setItem("access_token", access);
+      localStorage.setItem("refresh_token", refresh);
+
+      // Update Redux state
+      if (email && role && id) {
+        await dispatch(
+          setAuthorizationLogin({
+            isAuthenticated: true,
+            email: email,
+            role: role,
+            id: id,
+          })
+        );
       }
-      return response.data;
+
+      return { response: "Succeeded", role, email, name };
     } catch (error: any) {
       console.log(error);
-    } finally {
+      return { response: "Failed" };
     }
   };
 

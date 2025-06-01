@@ -23,7 +23,6 @@ const useRegisterCaregiver = () => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        "X-CSRFToken": Cookies.get("csrftoken"),
       },
     };
 

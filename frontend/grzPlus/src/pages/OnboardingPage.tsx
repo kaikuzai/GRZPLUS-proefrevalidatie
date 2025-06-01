@@ -95,8 +95,7 @@ const OnboardingPage: React.FC<OnboardingPageProps> = ({
     if (onComplete) {
       onComplete();
     } else {
-      // Default behavior: navigate to dashboard
-      navigate("/dashboard");
+      navigate("/login");
     }
   };
 
