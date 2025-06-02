@@ -25,7 +25,6 @@ const defaultSteps: OnboardingStep[] = [
     description:
       "We zijn blij je aan boord te hebben. GRZ Plus helpt je om efficiënter te werken en beter samen te werken met je team.",
     icon: "👋",
-    backgroundColor: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
     textColor: "white",
   },
   {
@@ -33,8 +32,7 @@ const defaultSteps: OnboardingStep[] = [
     subtitle: "Alles in één oogopslag",
     description:
       "Hier vind je een overzicht van al je belangrijke informatie, recente activiteiten en lopende projecten. Je startpunt voor elke werkdag.",
-    image: "onboarding/patienten-overzicht.png", // You'll need to add actual images
-    backgroundColor: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+    image: "onboarding/patienten-overzicht.png",
     textColor: "white",
   },
   {
@@ -43,7 +41,6 @@ const defaultSteps: OnboardingStep[] = [
     description:
       "Dit zijn de formulieren die je moet invullen zodat wij weten waar jij thuis nog meer ondersteuning bij nodig hebt.",
     image: "onboarding/form-grid.png",
-    backgroundColor: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
     textColor: "white",
   },
   {
@@ -52,7 +49,6 @@ const defaultSteps: OnboardingStep[] = [
     description:
       "Via deze formulieren kan je ons laten weten hoe jouw ervaring thuis zijn. Laat het ons weten wanneer er iets mis gaat en hoe dit verholpen kan worden in de toekomst!",
     image: "/onboarding/formulier.png",
-    backgroundColor: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
     textColor: "white",
   },
   {
@@ -61,7 +57,6 @@ const defaultSteps: OnboardingStep[] = [
     description:
       "Je bent nu klaar om GRZ Plus ten volle te benutten. Veel succes en welkom bij het team!",
     icon: "🚀",
-    backgroundColor: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
     textColor: "white",
   },
 ];
