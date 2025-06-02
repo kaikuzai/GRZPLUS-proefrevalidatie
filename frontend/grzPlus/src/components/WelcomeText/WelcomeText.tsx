@@ -4,24 +4,25 @@ import "./WelcomeText.css";
 const WelcomeText = () => {
   const navigate = useNavigate();
 
-  const handlePatient = () => {
-    navigate("/formulieren");
-  };
-
-  const handleCaregiver = () => {
+  const handleGetStarted = () => {
     navigate("/login");
   };
 
   return (
-    <div className="welcome-container">
-      <h1 className="welcome-header">Welkom in de GRZPLUS Revalidatie APP</h1>
-      <p className="welcome-text">Laat weten wie je bent om door te gaan.</p>
-      <div className="button-container">
-        <button className="button" onClick={handlePatient}>
-          Ik ben revalidant
-        </button>
-        <button className="button" onClick={handleCaregiver}>
-          Ik ben zorgverlener
+    <div className="hero-container">
+      <div className="hero-content">
+        <h1 className="hero-title">
+          Het is tijd om <span className="hero-accent">je herstel</span> eigen
+          te maken
+        </h1>
+
+        <p className="hero-subtitle">
+          Voor patiënten en zorgverleners die het revalidatietraject helder,
+          persoonlijk en effectief willen volgen.
+        </p>
+
+        <button className="cta-button" onClick={handleGetStarted}>
+          Aan de slag
         </button>
       </div>
     </div>

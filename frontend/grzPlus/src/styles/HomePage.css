@@ -1,7 +1,4 @@
+/* Remove the previous container styling since the hero section now handles its own positioning */
 .welcome-text-container { 
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 200px;
+  display: contents;
 }
