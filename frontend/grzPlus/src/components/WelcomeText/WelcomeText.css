@@ -1,51 +1,71 @@
-/* src/components/WelcomeScreen.css */
+.hero-container {
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7fdfc;
+  padding: 2rem;
+}
 
-.welcome-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-    width: 500px; 
-    background-color: white; 
+.hero-content {
+  max-width: 800px;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 400;
+  color: #2d2d2d;
+  line-height: 1.1;
+  margin-bottom: 2rem;
+  letter-spacing: -0.02em;
+}
+
+.hero-accent {
+  color: #efc44e; /* Donkergroen uit GRZ */
+  font-style: italic;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 3rem;
+  font-weight: 400;
+}
+
+.cta-button {
+  background: #00827b; /* Geel uit GRZPLUS */
+  color: #ffffff;
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cta-button:hover {
+  background: #38a49e;
+  transform: translateY(-1px);
+}
+
+.cta-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(247, 182, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
   }
-  
-  .welcome-header {
-    font-size: 2rem;
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 20px;
-  }
-  
-  .welcome-text {
+
+  .hero-subtitle {
     font-size: 1.1rem;
-    color: #7f8c8d;
-    margin-bottom: 30px;
   }
-  
-  .button-container {
-    display: flex;
-    gap: 15px;
+
+  .hero-container {
+    padding: 1rem;
   }
-  
-  .button {
-    background-color: #3498db;
-    color: white;
-    font-size: 1rem;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .button:hover {
-    background-color: #2980b9;
-    transform: scale(1.05);
-  }
-  
-  .button:focus {
-    outline: none;
-  }
-  
+}

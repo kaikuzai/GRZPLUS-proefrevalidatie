@@ -72,7 +72,7 @@ export default function Navbar({
       : []
     : [
         { to: "/", label: "Home" },
-        { to: "/informatie", label: "Hoe werkt het?" },
+        { to: "/rondleiding", label: "Hoe werkt het?" },
         { to: "/login", label: "Login" },
       ];
 
