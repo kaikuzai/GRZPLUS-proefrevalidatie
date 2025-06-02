@@ -5,11 +5,18 @@ import styles from "./DynamicForm.module.css";
 import useFormSlug from "../../hooks/useFormSlug";
 import useSubmitForm from "../../hooks/useSubmitForm";
 import TextSizeController from "../TextSizeController/TextSizeController";
+import {
+  SmileyVeryBad,
+  SmileyBad,
+  SmileyNeutral,
+  SmileyGood,
+  SmileyVeryGood,
+} from "../../assets/smileySVG";
 
 // Form field types
 interface FormField {
   id: string;
-  type: "text" | "yesno";
+  type: "text" | "yesno" | "rating";
   label: string;
   placeholder?: string;
   required: boolean;
@@ -30,6 +37,15 @@ interface AlertModal {
   title: string;
   message: string;
 }
+
+// Rating values mapping
+const RATING_VALUES = {
+  veryBad: "very bad",
+  bad: "bad",
+  neutral: "neutral",
+  good: "good",
+  veryGood: "very good",
+};
 
 const DynamicForm = () => {
   const navigate = useNavigate();
@@ -258,6 +274,132 @@ const DynamicForm = () => {
                   className={explanationHasError ? "error-input" : ""}
                 />
                 {explanationHasError && (
+                  <p className="error-message">Toelichting is verplicht</p>
+                )}
+              </div>
+            )}
+          </div>
+        );
+
+      case "rating":
+        const currentRating = values[field.id]?.value;
+        const showRatingExplanation =
+          currentRating &&
+          ["very bad", "bad", "neutral"].includes(currentRating);
+        const ratingExplanationId = `${field.id}_explanation`;
+        const ratingExplanationHasError = errors.includes(ratingExplanationId);
+        SmileyVeryGood;
+
+        return (
+          <div key={field.id}>
+            <div className={`form-field ${hasError ? "error" : ""}`}>
+              <label>
+                {field.label}
+                {field.required && <span className="required">*</span>}
+              </label>
+              <div className="rating-group">
+                <div
+                  className="rating-option"
+                  onClick={() =>
+                    handleInputChange(
+                      field.id,
+                      RATING_VALUES["veryBad"],
+                      field.label
+                    )
+                  }
+                  title="Zeer slecht"
+                >
+                  <SmileyVeryBad selected={currentRating === "very bad"} />
+                  <span>Zeer slecht</span>
+                </div>
+                <div
+                  className="rating-option"
+                  onClick={() =>
+                    handleInputChange(
+                      field.id,
+                      RATING_VALUES["bad"],
+                      field.label
+                    )
+                  }
+                  title="Slecht"
+                >
+                  <SmileyBad selected={currentRating === "bad"} />
+                  <span>Slecht</span>
+                </div>
+                <div
+                  className="rating-option"
+                  onClick={() =>
+                    handleInputChange(
+                      field.id,
+                      RATING_VALUES["neutral"],
+                      field.label
+                    )
+                  }
+                  title="Neutraal"
+                >
+                  <SmileyNeutral selected={currentRating === "neutral"} />
+                  <span>Neutraal</span>
+                </div>
+                <div
+                  className="rating-option"
+                  onClick={() =>
+                    handleInputChange(
+                      field.id,
+                      RATING_VALUES["good"],
+                      field.label
+                    )
+                  }
+                  title="Goed"
+                >
+                  <SmileyGood selected={currentRating === "good"} />
+                  <span>Goed</span>
+                </div>
+                <div
+                  className="rating-option"
+                  onClick={() =>
+                    handleInputChange(
+                      field.id,
+                      RATING_VALUES["veryGood"],
+                      field.label
+                    )
+                  }
+                  title="Zeer goed"
+                >
+                  <SmileyVeryGood selected={currentRating === "very good"} />
+                  <span>Zeer goed</span>
+                </div>
+              </div>
+              {hasError && (
+                <p className="error-message">Selecteer een waardering</p>
+              )}
+            </div>
+
+            {/* Explanation field that appears when negative rating is selected */}
+            {showRatingExplanation && (
+              <div
+                className={`form-field ${
+                  ratingExplanationHasError ? "error" : ""
+                }`}
+              >
+                <label htmlFor={ratingExplanationId}>
+                  Toelichting
+                  <span className="required">*</span>
+                </label>
+                <input
+                  type="text"
+                  id={ratingExplanationId}
+                  placeholder="Geef een toelichting bij uw waardering"
+                  value={values[ratingExplanationId]?.value || ""}
+                  onChange={(e) =>
+                    handleInputChange(
+                      ratingExplanationId,
+                      e.target.value,
+                      `Toelichting - ${field.label}`
+                    )
+                  }
+                  className={ratingExplanationHasError ? "error-input" : ""}
+                />
+                {ratingExplanationHasError && (
                   <p className="error-message">Toelichting is verplicht</p>
                 )}
               </div>

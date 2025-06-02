@@ -6,10 +6,12 @@ User = get_user_model()
 class FormField(models.Model):
     TEXT = 'text'
     YESNO = 'yesno'
+    RATING = 'rating'
 
     FIELD_TYPES = [
         (TEXT, 'Text'),
         (YESNO, 'Yes/No'),
+        (RATING, 'Rating')
     ]
 
     label = models.CharField(max_length=255)
