@@ -22,7 +22,7 @@ def registration_email(user, context):
             subject=subject, 
             body=plain_message,
             from_email=None,
-            to=["dylan.okyere@gmail.com"],
+            to=["dylan.okyere@gmail.com", "alizah_mahmood@hotmail.com"],
         )
 
         message.attach_alternative(html_message, "text/html")
@@ -45,7 +45,7 @@ def set_password_email_patient(user, context: dict):
             subject=subject, 
             body=plain_message,
             from_email=None,
-            to=["dylan.okyere@gmail.com"],
+            to=["dylan.okyere@gmail.com", "alizah_mahmood@hotmail.com"],
         )
 
         message.attach_alternative(html_message, "text/html")
@@ -68,7 +68,7 @@ def set_password_email_supporter(user, context: dict):
             subject=subject, 
             body=plain_message,
             from_email=None,
-            to=["dylan.okyere@gmail.com"],
+            to=["dylan.okyere@gmail.com", "alizah_mahmood@hotmail.com"],
         )
 
         message.attach_alternative(html_message, "text/html")
@@ -90,7 +90,7 @@ def set_password_email_caregiver(user, context: dict):
             subject=subject, 
             body=plain_message,
             from_email=None,
-            to=["dylan.okyere@gmail.com"],
+            to=["dylan.okyere@gmail.com", "alizah_mahmood@hotmail.com"],
         )
 
         message.attach_alternative(html_message, "text/html")
@@ -112,7 +112,7 @@ def set_password_email_admin(user, context: dict):
             subject=subject, 
             body=plain_message,
             from_email=None,
-            to=["dylan.okyere@gmail.com"],
+            to=["dylan.okyere@gmail.com", "alizah_mahmood@hotmail.com"],
         )
 
         message.attach_alternative(html_message, "text/html")

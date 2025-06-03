@@ -428,6 +428,11 @@ const DynamicForm = () => {
     <div className="dynamic-form-container">
       <TextSizeController />
       <h1 className="form-title">{formData.name}</h1>
+      <h2 className="form-subtitle">
+        Laat de revalidant deze vragen zoveel mogelijk zelf beantwoorden. U mag
+        helpen met lezen of invullen, maar het gaat om de ervaring van de
+        revalidant.
+      </h2>
 
       <button
         className="return-button"

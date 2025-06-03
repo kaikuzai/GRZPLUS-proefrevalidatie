@@ -13,6 +13,14 @@
     color: #333;
     font-size: 28px;
   }
+
+  .form-subtitle {
+    text-align: left;
+    color: black; 
+    font-size: 20px; 
+    font-weight: normal;
+
+  }
   
   .return-button {
     display: block;
