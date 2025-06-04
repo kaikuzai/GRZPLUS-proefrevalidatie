@@ -93,7 +93,9 @@ npm run dev
 > - 👨‍⚕️ Caregiver Dashboard  
 <img width="1310" alt="Image" src="https://github.com/user-attachments/assets/da69baec-2221-4471-a474-45aa3a7333b2" />
 <img width="1289" alt="Image" src="https://github.com/user-attachments/assets/9b8f7ee2-6da8-47f3-83ba-f483d3e4d0e7" />
+
 > - 🧭 Onboarding Flow
+
 <img width="816" alt="Image" src="https://github.com/user-attachments/assets/a91ec8b6-edbe-4557-9cce-9d678000f56a" />
 
 ## 🔒 Authentication
