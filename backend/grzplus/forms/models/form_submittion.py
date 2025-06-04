@@ -14,4 +14,4 @@ class SubmittedForm(models.Model):
     form_data = models.JSONField()
 
     def __str__(self):
-        return self.form_name
+        return f"{self.user} - {self.form_name}"
