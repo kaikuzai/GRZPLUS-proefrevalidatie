@@ -35,8 +35,8 @@ The platform simplifies communication between patients and caregivers by offerin
 | Frontend      | React (Vite) + TypeScript           |
 | Backend       | Django + Django Rest Framework      |
 | Auth          | JWT (Custom claims: name, role, email) |
-| Forms Storage | NoSQL (for flexible form structures) |
-| Database      | PostgreSQL (user & metadata)        |
+| Forms Storage | JSON (for flexible form structures) |
+| Database      | SQL (user & metadata)        |
 
 ## 📂 Folder Structure
 
