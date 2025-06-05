@@ -76,19 +76,61 @@
     outline: none;
   }
   
-  .radio-group {
+
+   .yesno-group {
     display: flex;
-    gap: 20px;
+    gap: 15px;
+    padding: 15px 0;
+    flex-wrap: wrap;
   }
-  
-  .radio-label {
-    display: flex;
-    align-items: center;
+
+  .yesno-button {
+    flex: 1;
+    min-width: 100px;
+    padding: 15px 20px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
     cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-  
-  .radio-label input {
-    margin-right: 8px;
+
+  .yesno-button:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border-color: #bbb;
+  }
+
+  .yesno-button.selected {
+    background-color: #2ecc71;
+    color: white;
+    border-color: #27ae60;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+    animation: buttonPulse 0.6s ease-in-out;
+  }
+
+  .yesno-button.selected:hover {
+    background-color: #27ae60;
+    border-color: #229954;
+  }
+
+  @keyframes buttonPulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1.05);
+    }
   }
   
   .form-actions {

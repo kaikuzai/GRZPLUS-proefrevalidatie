@@ -211,6 +211,7 @@ const DynamicForm = () => {
         const showExplanation = values[field.id]?.value === "yes";
         const explanationId = `${field.id}_explanation`;
         const explanationHasError = errors.includes(explanationId);
+        const currentYesNoValue = values[field.id]?.value;
 
         return (
           <div key={field.id}>
@@ -219,31 +220,27 @@ const DynamicForm = () => {
                 {field.label}
                 {field.required && <span className="required">*</span>}
               </label>
-              <div className="radio-group">
-                <label className="radio-label">
-                  <input
-                    type="radio"
-                    name={field.id}
-                    value="yes"
-                    checked={values[field.id]?.value === "yes"}
-                    onChange={() =>
-                      handleInputChange(field.id, "yes", field.label)
-                    }
-                  />
+              <div className="yesno-group">
+                <button
+                  type="button"
+                  className={`yesno-button ${
+                    currentYesNoValue === "yes" ? "selected" : ""
+                  }`}
+                  onClick={() =>
+                    handleInputChange(field.id, "yes", field.label)
+                  }
+                >
                   Ja
-                </label>
-                <label className="radio-label">
-                  <input
-                    type="radio"
-                    name={field.id}
-                    value="no"
-                    checked={values[field.id]?.value === "no"}
-                    onChange={() =>
-                      handleInputChange(field.id, "no", field.label)
-                    }
-                  />
+                </button>
+                <button
+                  type="button"
+                  className={`yesno-button ${
+                    currentYesNoValue === "no" ? "selected" : ""
+                  }`}
+                  onClick={() => handleInputChange(field.id, "no", field.label)}
+                >
                   Nee
-                </label>
+                </button>
               </div>
               {hasError && (
                 <p className="error-message">Selecteer één van de opties</p>
