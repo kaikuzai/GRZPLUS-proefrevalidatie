@@ -425,8 +425,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['email'] = self.user.email
         data['name'] = self.user.first_name
         data['id'] = self.user.id
-        
-        print("this is token data", data)
 
         return data
     

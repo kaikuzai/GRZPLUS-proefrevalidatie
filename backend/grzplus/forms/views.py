@@ -1,3 +1,5 @@
+import json 
+
 from rest_framework.views import APIView
 from rest_framework.response import Response 
 from rest_framework import status 
@@ -35,10 +37,6 @@ class FormListView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-
-@method_decorator(csrf_exempt, name='dispatch')
 class FormIconView(APIView):
     def get(self, request):
         forms = Form.objects.all()
@@ -51,10 +49,25 @@ class SubmitFormView(APIView):
     def post(self, request):
 
         user = request.user
-         
-        form_id = request.data['formId']
-        form_data = request.data['answers']
+        image_file = request.FILES.get('file')
 
+
+        # formData is a JSON string, so we need to parse it
+        form_data_str = request.data.get('formData')
+
+        if not form_data_str:
+            return Response({'error': 'Missing formData'}, status=400)
+
+        try:
+            form_data = json.loads(form_data_str)
+        except json.JSONDecodeError:
+            return Response({'error': 'Invalid JSON in formData'}, status=400)
+        
+        form_id = form_data.get('formId')
+        answers = form_data.get('answers')
+
+        if not form_id or not answers:
+            return Response({'error': 'Missing formId or answers'}, status=400)
 
         form = Form.objects.get(id=form_id)
 
@@ -62,7 +75,8 @@ class SubmitFormView(APIView):
             form=form,
             form_name=form.name, 
             user=user,
-            form_data = form_data
+            form_data = answers,
+            image = image_file if image_file else None,
 
         )
         submitted_form.save()

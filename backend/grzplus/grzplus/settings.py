@@ -222,5 +222,9 @@ TEMPLATES = [
     },
 ]
 
-# FRONTEND SHIT 
+# FRONTEND 
 FRONTEND_URL = "http://localhost:5173"
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
