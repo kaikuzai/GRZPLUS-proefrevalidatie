@@ -56,6 +56,7 @@ const DynamicForm = () => {
 
   const [values, setValues] = useState<FormValues>({});
   const [errors, setErrors] = useState<string[]>([]);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [showClearConfirm, setShowClearConfirm] = useState<boolean>(false);
   const [alertModal, setAlertModal] = useState<AlertModal>({
     show: false,
@@ -86,6 +87,25 @@ const DynamicForm = () => {
     }
   };
 
+  // Handle image upload
+  const handleImageUpload = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*,video/*";
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        setSelectedFile(file);
+      }
+    };
+    input.click();
+  };
+
+  // Remove selected file
+  const removeSelectedFile = () => {
+    setSelectedFile(null);
+  };
+
   const handleInputChange = (fieldId: string, value: string, label: string) => {
     setValues((prev) => ({
       ...prev,
@@ -109,6 +129,7 @@ const DynamicForm = () => {
     setValues({});
     setErrors([]);
     setShowClearConfirm(false);
+    setSelectedFile(null);
   };
 
   const cancelClear = () => {
@@ -153,7 +174,14 @@ const DynamicForm = () => {
       // Submit form if we have the required data
       if (formData?.name && formData?.id) {
         console.log("Form values before submission:", values);
-        const succeeded = await submitForm(formData.id, formData.name, values);
+        console.log("selected file", selectedFile);
+
+        const succeeded = await submitForm(
+          formData.id,
+          formData.name,
+          values,
+          selectedFile
+        );
 
         if (succeeded) {
           showAlert(
@@ -440,6 +468,30 @@ const DynamicForm = () => {
 
       <form onSubmit={handleSubmit} className="dynamic-form">
         {formData.fields.map((field) => renderField(field))}
+        <div className="image-upload-section">
+          <p className="upload-text">
+            Wil je een foto of video toevoegen? Klik dan op de knop hieronder
+          </p>
+          <button
+            type="button"
+            className="upload-button"
+            onClick={handleImageUpload}
+          >
+            📷 Foto/Video Toevoegen
+          </button>
+          {selectedFile && (
+            <div className="selected-file-info">
+              <p>Geselecteerd bestand: {selectedFile.name}</p>
+              <button
+                type="button"
+                className="remove-file-button"
+                onClick={removeSelectedFile}
+              >
+                ✕ Verwijderen
+              </button>
+            </div>
+          )}
+        </div>
 
         <div className="form-actions">
           <button type="button" className="clear-button" onClick={handleClear}>

@@ -10,6 +10,7 @@ interface FormResponse {
   patientEmail: string;
   submittedAt: string;
   answers: string | { [key: string]: string }; // Accept either string or object
+  imageUrl?: string | null;
 }
 
 interface FormResponseDetailProps {
@@ -98,6 +99,32 @@ const FormResponseDetail: React.FC<FormResponseDetailProps> = ({
 
   const toelichtingAnswers = getToelichtingAnswers();
 
+  const handleDownload = () => {
+    if (response.imageUrl) {
+      const link = document.createElement("a");
+      link.href = response.imageUrl;
+      link.download = `form-media-${response.id}`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
+  // Check if the file is an image or video based on URL
+  const getFileType = (url: string) => {
+    const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp"];
+    const videoExtensions = [".mp4", ".mov", ".avi", ".wmv", ".flv", ".webm"];
+
+    const lowerUrl = url.toLowerCase();
+
+    if (imageExtensions.some((ext) => lowerUrl.includes(ext))) {
+      return "image";
+    } else if (videoExtensions.some((ext) => lowerUrl.includes(ext))) {
+      return "video";
+    }
+    return "unknown";
+  };
+
   // Handle copy to clipboard
   const copyToClipboard = () => {
     const toelichtingText = Object.entries(toelichtingAnswers)
@@ -164,6 +191,37 @@ const FormResponseDetail: React.FC<FormResponseDetailProps> = ({
           ))}
         </div>
       </div>
+      {response.imageUrl && (
+        <div className="response-content-extra">
+          <div className="header-area">
+            <h2>Bijgevoegd Bestand</h2>
+            <button
+              onClick={handleDownload}
+              className="copy-button download-button"
+            >
+              Download
+            </button>
+          </div>
+          <div className="media-container">
+            {getFileType(response.imageUrl) === "image" ? (
+              <img
+                src={response.imageUrl}
+                alt="Formulier bijlage"
+                className="media-preview"
+              />
+            ) : getFileType(response.imageUrl) === "video" ? (
+              <video src={response.imageUrl} controls className="media-preview">
+                Uw browser ondersteunt geen video weergave.
+              </video>
+            ) : (
+              <div className="media-placeholder">
+                <p>Bestand beschikbaar voor download</p>
+                <p className="file-url">{response.imageUrl.split("/").pop()}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

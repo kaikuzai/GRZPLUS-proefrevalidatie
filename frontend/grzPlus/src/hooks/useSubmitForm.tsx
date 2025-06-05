@@ -18,13 +18,15 @@ interface FormSubmission {
   answers: {
     [key: string]: string;
   };
+  file?: File;
 }
 
 interface UseSubmitFormResult {
   submitForm: (
     formId: string,
     formName: string,
-    values: FormValues
+    values: FormValues,
+    file?: File | null
   ) => Promise<boolean>;
   loading: boolean;
   error: string | null;
@@ -47,12 +49,14 @@ const useSubmitForm = (): UseSubmitFormResult => {
    * @param formId - The ID of the form
    * @param formName - The name of the form
    * @param values - Form values with labels from the DynamicForm component
+   * @param file - Optional image or video file to upload
    * @returns Promise resolving to true if submission was successful
    */
   const submitForm = async (
     formId: string,
     formName: string,
-    values: FormValues
+    values: FormValues,
+    file?: File | null
   ): Promise<boolean> => {
     setLoading(true);
     setError(null);
@@ -67,28 +71,32 @@ const useSubmitForm = (): UseSubmitFormResult => {
         answers[label] = values[fieldId].value;
       });
 
+      const formData = new FormData();
+
       // Create the submission object in the required format
-      const formSubmission: FormSubmission = {
+      const formSubmissionData: FormSubmission = {
         formId,
         formName,
         answers,
       };
 
-      console.log("Submitting form data:", formSubmission);
+      formData.append("formData", JSON.stringify(formSubmissionData));
 
-      const body = JSON.stringify(formSubmission);
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
+      if (file) {
+        formData.append("file", file);
+      }
+
+      console.log("Submitting form data:", formSubmissionData);
+      if (file) {
+        console.log("submitting file:", file.name, file.type, file.size);
+      }
+
+      const body = formData;
 
       // Make the API call
-      // Replace with your actual API endpoint
       const response = await apiClient.post<Response>(
         "api/forms/submit/",
-        body,
-        config
+        body
       );
 
       const data = await response.data.response;

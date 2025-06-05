@@ -12,6 +12,7 @@ interface FormResponse {
   answers: {
     [key: string]: string;
   };
+  imageUrl?: string | null;
 }
 
 const useSubmittedForms = () => {
