@@ -13,7 +13,7 @@ class SubmittedForm(models.Model):
     submitted_at = models.DateTimeField(auto_now_add=True)
     form_data = models.JSONField()
 
-    image = models.ImageField(upload_to="form_uploads/", null=True, blank=True)
+    imageUrl = models.ImageField(upload_to="form_uploads/", null=True, blank=True)
 
     def __str__(self):
         return f"{self.user} - {self.form_name}"

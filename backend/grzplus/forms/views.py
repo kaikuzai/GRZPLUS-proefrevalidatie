@@ -76,7 +76,7 @@ class SubmitFormView(APIView):
             form_name=form.name, 
             user=user,
             form_data = answers,
-            image = image_file if image_file else None,
+            imageUrl = image_file if image_file else None,
 
         )
         submitted_form.save()
@@ -114,6 +114,6 @@ class SubmittedFormListView(APIView):
         submitted_forms = submitted_forms
         
 
-        serializer = FormResponseSerializer(submitted_forms, many=True)
+        serializer = FormResponseSerializer(submitted_forms, many=True, context={'request': request})
         
         return Response(serializer.data, status=status.HTTP_200_OK)

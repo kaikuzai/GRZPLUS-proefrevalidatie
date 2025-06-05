@@ -39,6 +39,7 @@ class FormResponseSerializer(serializers.ModelSerializer):
     patientEmail = serializers.SerializerMethodField()
     submittedAt = serializers.DateTimeField(source='submitted_at', format='%Y-%m-%dT%H:%M:%SZ')
     answers = serializers.CharField(source='form_data')
+    imageUrl = serializers.SerializerMethodField()
     
     class Meta:
         model = SubmittedForm
@@ -49,7 +50,8 @@ class FormResponseSerializer(serializers.ModelSerializer):
             'patientName', 
             'patientEmail', 
             'submittedAt', 
-            'answers'
+            'answers',
+            'imageUrl',
         ]
     
     def get_patientName(self, obj):
@@ -67,4 +69,15 @@ class FormResponseSerializer(serializers.ModelSerializer):
         if obj.user and obj.user.email:
             return obj.user.email
         return ""
+    
+    def get_imageUrl(self, obj):
+        """
+        Get the image url associated with the form 
+        """
+        if obj.imageUrl:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.imageUrl.url)
+            return obj.imageUrl.url
+        return None
     
