@@ -23,11 +23,10 @@ class User(AbstractUser):
     email = models.EmailField(max_length=255, unique=True)
     password = models.CharField(max_length=128, blank=False)
     is_password_set = models.BooleanField(default=False)
-
-    # Fields for Caregiver
-    caregiver_id = models.CharField(max_length=10, blank=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
+
+
 
     # Fields for Patient
     email_supporter = models.EmailField(max_length=255, blank=True)
@@ -42,8 +41,17 @@ class User(AbstractUser):
         on_delete=models.SET_NULL, 
         null=True, 
         blank=True, 
-        related_name='patients',  # Allows reverse lookup of all patients connected to this mantelzorger
-        limit_choices_to={'role': Role.SUPPORTER}  # Only allow 'mantelzorger' users to be selected
+        related_name='patients', 
+        limit_choices_to={'role': Role.SUPPORTER}  
+    )
+
+    caregiver = models.ForeignKey(
+        'self', 
+        on_delete=models.SET_NULL, 
+        null= True,
+        blank= True, 
+        related_name="patients",
+        limit_choices_to={'role': Role.CAREGIVER}
     )
 
 

@@ -24,7 +24,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       <div className="modal-content">
         <h3>Formulier opnieuw invullen?</h3>
         <p>
-          Je hebt het formulier "{formName}" al ingevuld. Wil je het opnieuw
+          U heeft het formulier "{formName}" al ingevuld. Wilt u het opnieuw
           invullen?
         </p>
         <div className="modal-buttons">
@@ -54,7 +54,7 @@ const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({
   return (
     <div className="progress-container">
       <div className="progress-header">
-        <h3>Je voortgang</h3>
+        <h3>Uw voortgang</h3>
         <span className="progress-text">
           {completed} van {total} formulieren ingevuld
         </span>

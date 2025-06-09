@@ -104,6 +104,7 @@ class RegisterWithoutPasswordView(APIView):
         supporter_first_name = data['voornaamMantelzorger']
         supporter_last_name = data['achternaamMantelzorger']
 
+
         if User.objects.filter(username=email).exists():
             return Response({"detail":'user already exists'}, status=status.HTTP_409_CONFLICT)
         else:

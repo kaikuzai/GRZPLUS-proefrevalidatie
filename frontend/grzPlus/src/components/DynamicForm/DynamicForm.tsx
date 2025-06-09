@@ -470,7 +470,7 @@ const DynamicForm = () => {
         {formData.fields.map((field) => renderField(field))}
         <div className="image-upload-section">
           <p className="upload-text">
-            Wil je een foto of video toevoegen? Klik dan op de knop hieronder
+            Wilt u een foto of video toevoegen? Klik dan op de knop hieronder
           </p>
           <button
             type="button"
