@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TextSizeController from "../components/TextSizeController/TextSizeController";
 import "../styles/OnboardingPage.css";
+import { useSelector } from "react-redux";
+import type { Rootstate } from "../state/store";
 
 interface OnboardingStep {
   title: string;
@@ -31,14 +33,6 @@ const defaultSteps: OnboardingStep[] = [
     showTextSizeController: true,
   },
   {
-    title: "Jouw Dashboard",
-    subtitle: "Alles in één oogopslag",
-    description:
-      "Hier vind je een overzicht van al je belangrijke informatie, recente activiteiten en lopende projecten. Je startpunt voor elke werkdag.",
-    image: "onboarding/patienten-overzicht.png",
-    textColor: "white",
-  },
-  {
     title: "Jouw formulieren",
     subtitle: "Hier geef je aan wat jouw ervaring is in elke ruimte",
     description:
@@ -52,6 +46,30 @@ const defaultSteps: OnboardingStep[] = [
     description:
       "Via deze formulieren kan je ons laten weten hoe jouw ervaring thuis zijn. Laat het ons weten wanneer er iets mis gaat en hoe dit verholpen kan worden in de toekomst!",
     image: "/onboarding/formulier.png",
+    textColor: "white",
+  },
+  {
+    title: "Ja Nee vragen",
+    subtitle: "Klik op ja of op nee",
+    description:
+      "Als je op Ja drukt vragen we nog even om een toelichting. Laat ons weten hoe jouw ervaring precies",
+    image: "/onboarding/ja-nee-vragen.png",
+    textColor: "white",
+  },
+  {
+    title: "Geef jouw beoordeling",
+    subtitle: "Laat ons zien hoe het met u gaat",
+    description:
+      "Met deze smileys kan je aangeven hoe jouw ervaring is geweest. Dit kan gaan van heel goed, naar heel slecht",
+    image: "/onboarding/rating-questions.png",
+    textColor: "white",
+  },
+  {
+    title: "Voeg een foto toe",
+    subtitle: "Geef ons inzicht in uw ervaring",
+    description:
+      "Door op deze knop te drukken kunt u foto's toevoegen. Dit kan heel erg behulpzaam zijn voor een zorgverlener om beter grip te krijgen op uw unieke ervaring",
+    image: "/onboarding/screenshot.png",
     textColor: "white",
   },
   {
@@ -70,6 +88,7 @@ const OnboardingPage: React.FC<OnboardingPageProps> = ({
 }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const navigate = useNavigate();
+  const userRole = useSelector((state: Rootstate) => state.authorization.role);
 
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
@@ -93,7 +112,19 @@ const OnboardingPage: React.FC<OnboardingPageProps> = ({
     if (onComplete) {
       onComplete();
     } else {
-      navigate("/login");
+      console.log(userRole);
+      if (userRole === "patient") {
+        navigate("/formulieren");
+      }
+      if (userRole === "caregiver") {
+        navigate("/dashboard");
+      }
+      if (userRole === "admin") {
+        navigate("/dashboard");
+      }
+      if (userRole == null) {
+        navigate("/login");
+      }
     }
   };
 
@@ -120,62 +151,6 @@ const OnboardingPage: React.FC<OnboardingPageProps> = ({
           color: currentStepData.textColor || "#1a202c",
         }}
       >
-        <div className="onboarding-content">
-          {/* Visual content */}
-          <div className="onboarding-visual">
-            {currentStepData.image ? (
-              <div className="onboarding-image-container">
-                <img
-                  src={currentStepData.image}
-                  alt={currentStepData.title}
-                  className="onboarding-image"
-                  onError={(e) => {
-                    // Fallback if image doesn't load
-                    e.currentTarget.style.display = "none";
-                    const fallback =
-                      e.currentTarget.parentElement?.querySelector(
-                        ".image-fallback"
-                      );
-                    if (fallback) {
-                      (fallback as HTMLElement).style.display = "flex";
-                    }
-                  }}
-                />
-                <div className="image-fallback">
-                  <div className="fallback-icon">📱</div>
-                </div>
-              </div>
-            ) : currentStepData.icon ? (
-              <div className="onboarding-icon">{currentStepData.icon}</div>
-            ) : null}
-          </div>
-
-          {/* Text content */}
-          <div className="onboarding-text">
-            <h1 className="onboarding-title">{currentStepData.title}</h1>
-
-            {currentStepData.subtitle && (
-              <p className="onboarding-subtitle">{currentStepData.subtitle}</p>
-            )}
-
-            <h1 className="onboarding-description">
-              {currentStepData.description}
-            </h1>
-
-            {/* Text Size Controller - only show on first step */}
-            {currentStepData.showTextSizeController && (
-              <div className="onboarding-text-controller">
-                <TextSizeController className="onboarding-controller" />
-                <p className="controller-help-text">
-                  💡 Tip: Je kunt de tekstgrootte later altijd aanpassen via de
-                  instellingen.
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Bottom controls */}
         <div className="onboarding-controls">
           {/* Progress indicators */}
           <div className="step-indicators">
@@ -228,6 +203,60 @@ const OnboardingPage: React.FC<OnboardingPageProps> = ({
                 </>
               )}
             </button>
+          </div>
+        </div>
+        <div className="onboarding-content">
+          {/* Visual content */}
+          <div className="onboarding-visual">
+            {currentStepData.image ? (
+              <div className="onboarding-image-container">
+                <img
+                  src={currentStepData.image}
+                  alt={currentStepData.title}
+                  className="onboarding-image"
+                  onError={(e) => {
+                    // Fallback if image doesn't load
+                    e.currentTarget.style.display = "none";
+                    const fallback =
+                      e.currentTarget.parentElement?.querySelector(
+                        ".image-fallback"
+                      );
+                    if (fallback) {
+                      (fallback as HTMLElement).style.display = "flex";
+                    }
+                  }}
+                />
+                <div className="image-fallback">
+                  <div className="fallback-icon">📱</div>
+                </div>
+              </div>
+            ) : currentStepData.icon ? (
+              <div className="onboarding-icon">{currentStepData.icon}</div>
+            ) : null}
+          </div>
+
+          {/* Text content */}
+          <div className="onboarding-text">
+            <h1 className="onboarding-title">{currentStepData.title}</h1>
+
+            {currentStepData.subtitle && (
+              <p className="onboarding-subtitle">{currentStepData.subtitle}</p>
+            )}
+
+            <h1 className="onboarding-description">
+              {currentStepData.description}
+            </h1>
+
+            {/* Text Size Controller - only show on first step */}
+            {currentStepData.showTextSizeController && (
+              <div className="onboarding-text-controller">
+                <TextSizeController className="onboarding-controller" />
+                <p className="controller-help-text">
+                  💡 Tip: Je kunt de tekstgrootte later altijd aanpassen via de
+                  instellingen.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
