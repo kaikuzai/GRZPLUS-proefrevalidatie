@@ -1,3 +1,5 @@
+import os 
+import sys
 import json 
 
 from rest_framework.views import APIView
@@ -8,6 +10,8 @@ from .models.forms import Form
 from .models.form_submittion import SubmittedForm
 
 from .serializers import FormFieldSerializer, FormSerializer, FormIconSerializer, FormResponseSerializer
+
+from deployment.functions.upload_to_storage_acocunt import upload_file_to_storage
 
 # Create your views here.
 class FormIDDetailView(APIView):
@@ -51,7 +55,6 @@ class SubmitFormView(APIView):
         user = request.user
         image_file = request.FILES.get('file')
 
-
         # formData is a JSON string, so we need to parse it
         form_data_str = request.data.get('formData')
 
@@ -71,13 +74,17 @@ class SubmitFormView(APIView):
 
         form = Form.objects.get(id=form_id)
 
+        # Upload image to Azure Blob Storage if present
+        image_url = None
+        if image_file:
+            image_url = upload_file_to_storage(str(user.id), image_file.name, image_file)
+
         submitted_form = SubmittedForm.objects.create(
             form=form,
             form_name=form.name, 
             user=user,
-            form_data = answers,
-            imageUrl = image_file if image_file else None,
-
+            form_data=answers,
+            imageUrl=image_url,
         )
         submitted_form.save()
 

@@ -1,6 +1,7 @@
 // src/pages/OnboardingPage.tsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import TextSizeController from "../components/TextSizeController/TextSizeController";
 import "../styles/OnboardingPage.css";
 
 interface OnboardingStep {
@@ -11,6 +12,7 @@ interface OnboardingStep {
   icon?: string;
   backgroundColor?: string;
   textColor?: string;
+  showTextSizeController?: boolean;
 }
 
 interface OnboardingPageProps {
@@ -21,11 +23,12 @@ interface OnboardingPageProps {
 const defaultSteps: OnboardingStep[] = [
   {
     title: "Welkom bij GRZ Plus!",
-    subtitle: "Je digitale werkplek",
+    subtitle: "Stel eerst je voorkeuren in",
     description:
-      "We zijn blij je aan boord te hebben. GRZ Plus helpt je om efficiënter te werken en beter samen te werken met je team.",
-    icon: "👋",
+      "We zijn blij je aan boord te hebben. Voordat we beginnen, kun je hieronder de tekstgrootte aanpassen naar wat voor jou het prettigst leest.",
+    icon: "⚙️",
     textColor: "white",
+    showTextSizeController: true,
   },
   {
     title: "Jouw Dashboard",
@@ -152,14 +155,23 @@ const OnboardingPage: React.FC<OnboardingPageProps> = ({
             <h1 className="onboarding-title">{currentStepData.title}</h1>
 
             {currentStepData.subtitle && (
-              <h2 className="onboarding-subtitle">
-                {currentStepData.subtitle}
-              </h2>
+              <p className="onboarding-subtitle">{currentStepData.subtitle}</p>
             )}
 
-            <p className="onboarding-description">
+            <h1 className="onboarding-description">
               {currentStepData.description}
-            </p>
+            </h1>
+
+            {/* Text Size Controller - only show on first step */}
+            {currentStepData.showTextSizeController && (
+              <div className="onboarding-text-controller">
+                <TextSizeController className="onboarding-controller" />
+                <p className="controller-help-text">
+                  💡 Tip: Je kunt de tekstgrootte later altijd aanpassen via de
+                  instellingen.
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
