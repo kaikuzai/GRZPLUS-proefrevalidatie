@@ -75,16 +75,16 @@ class SubmitFormView(APIView):
         form = Form.objects.get(id=form_id)
 
         # Upload image to Azure Blob Storage if present
-        image_url = None
+        contentUrl = None
         if image_file:
-            image_url = upload_file_to_storage(str(user.id), image_file.name, image_file)
+            contentUrl = upload_file_to_storage(str(user.id), image_file.name, image_file)
 
         submitted_form = SubmittedForm.objects.create(
             form=form,
             form_name=form.name, 
             user=user,
             form_data=answers,
-            imageUrl=image_url,
+            contentUrl=contentUrl,
         )
         submitted_form.save()
 

@@ -10,7 +10,7 @@ interface FormResponse {
   patientEmail: string;
   submittedAt: string;
   answers: string | { [key: string]: string }; // Accept either string or object
-  imageUrl?: string | null;
+  contentUrl?: string | null;
 }
 
 interface FormResponseDetailProps {
@@ -100,9 +100,9 @@ const FormResponseDetail: React.FC<FormResponseDetailProps> = ({
   const toelichtingAnswers = getToelichtingAnswers();
 
   const handleDownload = () => {
-    if (response.imageUrl) {
+    if (response.contentUrl) {
       const link = document.createElement("a");
-      link.href = response.imageUrl;
+      link.href = response.contentUrl;
       link.download = `form-media-${response.id}`;
       document.body.appendChild(link);
       link.click();
@@ -191,7 +191,7 @@ const FormResponseDetail: React.FC<FormResponseDetailProps> = ({
           ))}
         </div>
       </div>
-      {response.imageUrl && (
+      {response.contentUrl && (
         <div className="response-content-extra">
           <div className="header-area">
             <h2>Bijgevoegd Bestand</h2>
@@ -203,20 +203,26 @@ const FormResponseDetail: React.FC<FormResponseDetailProps> = ({
             </button>
           </div>
           <div className="media-container">
-            {getFileType(response.imageUrl) === "image" ? (
+            {getFileType(response.contentUrl) === "image" ? (
               <img
-                src={response.imageUrl}
+                src={response.contentUrl}
                 alt="Formulier bijlage"
                 className="media-preview"
               />
-            ) : getFileType(response.imageUrl) === "video" ? (
-              <video src={response.imageUrl} controls className="media-preview">
+            ) : getFileType(response.contentUrl) === "video" ? (
+              <video
+                src={response.contentUrl}
+                controls
+                className="media-preview"
+              >
                 Uw browser ondersteunt geen video weergave.
               </video>
             ) : (
               <div className="media-placeholder">
                 <p>Bestand beschikbaar voor download</p>
-                <p className="file-url">{response.imageUrl.split("/").pop()}</p>
+                <p className="file-url">
+                  {response.contentUrl.split("/").pop()}
+                </p>
               </div>
             )}
           </div>
