@@ -429,6 +429,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         return data
     
 class CustomTokenObtainPairView(TokenObtainPairView):
+    print("**********************")
     permission_classes = [permissions.AllowAny]
     serializer_class = CustomTokenObtainPairSerializer
 
