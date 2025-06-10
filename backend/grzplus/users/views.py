@@ -91,7 +91,7 @@ class RegisterView(APIView):
             user = User.objects.create_user(username=email, password=password, first_name=first_name, last_name=last_name)
             user.save()
             
-            # registration_email(user, "ddd")
+            registration_email(user, "ddd")
 
             return Response({'response: Succeeded'})
 
@@ -150,7 +150,7 @@ class RegisterWithoutPasswordView(APIView):
                     'reset_url': reset_url, 
                 }
 
-                # set_password_email_supporter(supporter, context=context)
+                set_password_email_supporter(supporter, context=context)
 
             patient.supporter = supporter 
             
@@ -180,7 +180,7 @@ class RegisterWithoutPasswordView(APIView):
                 'reset_url': reset_url, 
             }
 
-            # set_password_email_patient(patient, context=context)
+            set_password_email_patient(patient, context=context)
 
             return Response({'response': 'Succeeded'})
 
