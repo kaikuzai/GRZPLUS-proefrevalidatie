@@ -25,6 +25,7 @@ class UserListView(generics.ListAPIView):
 
     def get(self, request, *args, **kwargs):
         queryset = User.objects.all()
+        user = request.user
 
         user_role = request.query_params.get('role')
         if user_role:
@@ -33,6 +34,10 @@ class UserListView(generics.ListAPIView):
         user_id = request.query_params.get('user_id')
         if user_id:
             queryset = queryset.filter(id=int(user_id))
+
+        if user.role == Role.CAREGIVER:
+            if user_role == Role.PATIENT: 
+                queryset = queryset.filter(caregiver=user)    
         
         serializer = UserSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -72,6 +77,7 @@ class RegisterView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, format=None):
+        print(request)
         data = self.request.data 
 
         email = data['email']
@@ -85,7 +91,7 @@ class RegisterView(APIView):
             user = User.objects.create_user(username=email, password=password, first_name=first_name, last_name=last_name)
             user.save()
             
-            registration_email(user, "ddd")
+            # registration_email(user, "ddd")
 
             return Response({'response: Succeeded'})
 
@@ -93,6 +99,7 @@ class RegisterWithoutPasswordView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, format=None):
+        print(request.user.email)
         data = self.request.data 
 
 
@@ -103,6 +110,9 @@ class RegisterWithoutPasswordView(APIView):
         supporter = data['mantelzorger']
         supporter_first_name = data['voornaamMantelzorger']
         supporter_last_name = data['achternaamMantelzorger']
+
+       
+
 
 
         if User.objects.filter(username=email).exists():
@@ -140,9 +150,19 @@ class RegisterWithoutPasswordView(APIView):
                     'reset_url': reset_url, 
                 }
 
-                set_password_email_supporter(supporter, context=context)
+                # set_password_email_supporter(supporter, context=context)
 
             patient.supporter = supporter 
+            
+            try:
+                caregiver = User.objects.get(email=request.user.email, role=Role.CAREGIVER)
+                patient.caregiver = caregiver
+            except User.DoesNotExist:
+                return Response({"detail": "Caregiver user not found or not authorized"}, status=status.HTTP_400_BAD_REQUEST)
+    
+            
+
+            patient.caregiver = caregiver
             
             patient.save()
                 
@@ -160,7 +180,7 @@ class RegisterWithoutPasswordView(APIView):
                 'reset_url': reset_url, 
             }
 
-            set_password_email_patient(patient, context=context)
+            # set_password_email_patient(patient, context=context)
 
             return Response({'response': 'Succeeded'})
 
