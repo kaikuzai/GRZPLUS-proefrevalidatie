@@ -11,6 +11,7 @@ from .models.form_submittion import SubmittedForm
 
 from .serializers import FormFieldSerializer, FormSerializer, FormIconSerializer, FormResponseSerializer
 
+from users.models import Role
 from deployment.functions.upload_to_storage_acocunt import upload_file_to_storage
 
 # Create your views here.
@@ -99,8 +100,12 @@ class SubmittedFormListView(APIView):
     def get(self, request, *args, **kwargs):
         # Start with all submitted forms
         submitted_forms = SubmittedForm.objects.all()
+        user = request.user
         
         # Apply filters if provided in query parameters
+        if user.role == Role.CAREGIVER:
+            submitted_forms = submitted_forms.filter(user__caregiver=user)
+
         form_id = request.query_params.get('form_id')
         if form_id:
             submitted_forms = submitted_forms.filter(form__id=form_id)

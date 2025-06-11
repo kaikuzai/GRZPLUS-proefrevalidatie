@@ -122,7 +122,7 @@ const CaregiverDashboard = () => {
             id="email-filter"
             value={emailFilter}
             onChange={handleEmailFilterChange}
-            placeholder="Enter patient email"
+            placeholder="Vul email van patient in"
           />
         </div>
         <div className="response-count">

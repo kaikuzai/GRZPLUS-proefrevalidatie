@@ -41,10 +41,18 @@ class User(AbstractUser):
         on_delete=models.SET_NULL, 
         null=True, 
         blank=True, 
-        related_name='patients', 
+        related_name='supporter_patients', 
         limit_choices_to={'role': Role.SUPPORTER}  
     )
 
+    caregiver = models.ForeignKey(
+        'self', 
+        on_delete=models.SET_NULL, 
+        null= True,
+        blank= True, 
+        related_name="caregiving_patients",
+        limit_choices_to={'role': Role.CAREGIVER}
+    )
 
 
     def save(self, *args, **kwargs):

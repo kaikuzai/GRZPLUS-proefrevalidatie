@@ -1,6 +1,7 @@
 from django.contrib.auth import login, logout, authenticate 
 from django.shortcuts import get_object_or_404
 from django.conf import settings 
+from django.db.models import Q
 
 
 from rest_framework import generics
@@ -25,6 +26,7 @@ class UserListView(generics.ListAPIView):
 
     def get(self, request, *args, **kwargs):
         queryset = User.objects.all()
+        user = request.user
 
         user_role = request.query_params.get('role')
         if user_role:
@@ -33,6 +35,10 @@ class UserListView(generics.ListAPIView):
         user_id = request.query_params.get('user_id')
         if user_id:
             queryset = queryset.filter(id=int(user_id))
+
+        if user.role == Role.CAREGIVER:
+            if user_role == Role.PATIENT: 
+                queryset = queryset.filter(caregiver=user)    
         
         serializer = UserSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -72,6 +78,7 @@ class RegisterView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, format=None):
+        print(request)
         data = self.request.data 
 
         email = data['email']
@@ -103,7 +110,6 @@ class RegisterWithoutPasswordView(APIView):
         supporter = data['mantelzorger']
         supporter_first_name = data['voornaamMantelzorger']
         supporter_last_name = data['achternaamMantelzorger']
-
 
         if User.objects.filter(username=email).exists():
             return Response({"detail":'user already exists'}, status=status.HTTP_409_CONFLICT)
@@ -143,6 +149,19 @@ class RegisterWithoutPasswordView(APIView):
                 set_password_email_supporter(supporter, context=context)
 
             patient.supporter = supporter 
+            
+            try:
+                caregiver = User.objects.get(
+                Q(email=request.user.email),
+                Q(role=Role.CAREGIVER) | Q(role=Role.ADMIN)
+)
+                patient.caregiver = caregiver
+            except User.DoesNotExist:
+                return Response({"detail": "Caregiver user not found or not authorized"}, status=status.HTTP_400_BAD_REQUEST)
+    
+            
+
+            patient.caregiver = caregiver
             
             patient.save()
                 
@@ -430,7 +449,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         return data
     
 class CustomTokenObtainPairView(TokenObtainPairView):
-    print("**********************")
     permission_classes = [permissions.AllowAny]
     serializer_class = CustomTokenObtainPairSerializer
 
