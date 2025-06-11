@@ -1,6 +1,7 @@
 from django.contrib.auth import login, logout, authenticate 
 from django.shortcuts import get_object_or_404
 from django.conf import settings 
+from django.db.models import Q
 
 
 from rest_framework import generics
@@ -99,7 +100,6 @@ class RegisterWithoutPasswordView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, format=None):
-        print(request.user.email)
         data = self.request.data 
 
 
@@ -110,10 +110,6 @@ class RegisterWithoutPasswordView(APIView):
         supporter = data['mantelzorger']
         supporter_first_name = data['voornaamMantelzorger']
         supporter_last_name = data['achternaamMantelzorger']
-
-       
-
-
 
         if User.objects.filter(username=email).exists():
             return Response({"detail":'user already exists'}, status=status.HTTP_409_CONFLICT)
@@ -155,7 +151,10 @@ class RegisterWithoutPasswordView(APIView):
             patient.supporter = supporter 
             
             try:
-                caregiver = User.objects.get(email=request.user.email, role=Role.CAREGIVER)
+                caregiver = User.objects.get(
+                Q(email=request.user.email),
+                Q(role=Role.CAREGIVER) | Q(role=Role.ADMIN)
+)
                 patient.caregiver = caregiver
             except User.DoesNotExist:
                 return Response({"detail": "Caregiver user not found or not authorized"}, status=status.HTTP_400_BAD_REQUEST)
@@ -450,7 +449,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         return data
     
 class CustomTokenObtainPairView(TokenObtainPairView):
-    print("**********************")
     permission_classes = [permissions.AllowAny]
     serializer_class = CustomTokenObtainPairSerializer
 
