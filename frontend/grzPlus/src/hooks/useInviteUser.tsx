@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import apiClient from "../services/api-client";
 import { useState } from "react";
 import { AxiosError } from "axios";

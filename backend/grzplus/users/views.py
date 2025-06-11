@@ -17,7 +17,7 @@ from .models import User, PasswordResetToken, Role
 from .serializers import UserSerializer, SetPasswordSerializer
 
 
-from emails.views import registration_email, set_password_email_patient, set_password_email_supporter
+from emails.views import set_password_email_patient, set_password_email_caregiver
 
 # Create a generic view to list all users
 class UserListView(generics.ListAPIView):
@@ -42,9 +42,6 @@ class UserListView(generics.ListAPIView):
         
         serializer = UserSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-        
-
-
 
 
 # Login view 
@@ -73,30 +70,10 @@ class LoginView(APIView):
         else:
             return Response({'response': 'Failed'})
         
-    
-class RegisterView(APIView):
-    permission_classes = [permissions.AllowAny]
 
-    def post(self, request, format=None):
-        print(request)
-        data = self.request.data 
 
-        email = data['email']
-        first_name = data['firstName']
-        last_name = data['lastName']
-        password = data['password']
 
-        if User.objects.filter(username=email).exists():
-            return Response({'response':'Failed, user already exists'})
-        else:
-            user = User.objects.create_user(username=email, password=password, first_name=first_name, last_name=last_name)
-            user.save()
-            
-            registration_email(user, "ddd")
-
-            return Response({'response: Succeeded'})
-
-class RegisterWithoutPasswordView(APIView):
+class RegisterPatientWithoutPasswordView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, format=None):
@@ -111,6 +88,7 @@ class RegisterWithoutPasswordView(APIView):
         supporter_first_name = data['voornaamMantelzorger']
         supporter_last_name = data['achternaamMantelzorger']
 
+    
         if User.objects.filter(username=email).exists():
             return Response({"detail":'user already exists'}, status=status.HTTP_409_CONFLICT)
         else:
@@ -180,6 +158,52 @@ class RegisterWithoutPasswordView(APIView):
             }
 
             set_password_email_patient(patient, context=context)
+
+            return Response({'response': 'Succeeded'})
+        
+class RegisterCaregiverWithoutPasswordView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, format=None):
+        data = self.request.data 
+
+
+        email = data['email']
+        first_name = data['firstName']
+        last_name = data['lastName']
+
+    
+        if User.objects.filter(username=email).exists():
+            return Response({"detail":'user already exists'}, status=status.HTTP_409_CONFLICT)
+        else:
+            caregiver = User.objects.create_user(
+                username=email,
+                password=None, 
+                first_name=first_name, 
+                last_name= last_name, 
+                role=Role.CAREGIVER
+            )
+
+            caregiver.is_active = True 
+            caregiver.set_unusable_password()
+            
+            caregiver.save()
+                
+            caregiver_token = PasswordResetToken.objects.create(
+                user=caregiver
+            )
+
+
+            caregiver_token.save()
+
+            reset_url = f"{settings.FRONTEND_URL}/set-password/{caregiver_token.token}"
+
+            context = {
+                'first_name': caregiver.first_name, 
+                'reset_url': reset_url, 
+            }
+
+            set_password_email_caregiver(caregiver, context=context)
 
             return Response({'response': 'Succeeded'})
 

@@ -56,7 +56,6 @@ export default function Navbar({
       ? [
           { to: "/", label: "Home" },
           { to: "/dashboard", label: "Dashboard" },
-          // { to: "/formulier-maken", label: "Creëer formulier" },
           { to: "/patient-toevoegen", label: "Patient toevoegen" },
           { to: "/patienten", label: "Patient Overzicht" },
           { to: pathname, label: "Logout", func: handleLogout },
@@ -64,9 +63,10 @@ export default function Navbar({
       : userRole === "admin"
       ? [
           { to: "/", label: "Home" },
-          { to: "/patient-toevoegen", label: "Revalidant toevoegen" },
-          { to: "/patienten", label: "Patient Overzicht" },
           { to: "/dashboard", label: "Dashboard" },
+          { to: "/patient-toevoegen", label: "Revalidant toevoegen" },
+          { to: "/zorgverlener-toevoegen", label: "Zorgverlener toevoegen" },
+          { to: "/patienten", label: "Patient Overzicht" },
           { to: pathname, label: "Logout", func: handleLogout },
         ]
       : []

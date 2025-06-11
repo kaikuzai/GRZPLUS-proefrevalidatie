@@ -1,7 +1,6 @@
 // src/pages/admin/InviteUserPage.tsx
 import React, { useState } from "react";
 import axios from "axios";
-import Cookies from "js-cookie";
 import "../styles/AdminInviteUserPage.css";
 import apiClient from "../services/api-client";
 import Navbar from "../components/Navbar/Navbar";
@@ -10,19 +9,13 @@ interface InviteUserForm {
   email: string;
   firstName: string;
   lastName: string;
-  mantelzorger: string;
-  voornaamMantelzorger: string;
-  achternaamMantelzorger: string;
 }
 
-const CaregiverInviteUserPage: React.FC = () => {
+const InviteCaregiver: React.FC = () => {
   const [form, setForm] = useState<InviteUserForm>({
     email: "",
     firstName: "",
     lastName: "",
-    mantelzorger: "",
-    voornaamMantelzorger: "",
-    achternaamMantelzorger: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -41,11 +34,15 @@ const CaregiverInviteUserPage: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await apiClient.post("/api/users/invite-user/", form, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await apiClient.post(
+        "/api/users/invite-caregiver/",
+        form,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       setSuccess(response.data.message);
       // Reset form
@@ -53,9 +50,6 @@ const CaregiverInviteUserPage: React.FC = () => {
         email: "",
         firstName: "",
         lastName: "",
-        mantelzorger: "",
-        voornaamMantelzorger: "",
-        achternaamMantelzorger: "",
       });
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
@@ -125,76 +119,6 @@ const CaregiverInviteUserPage: React.FC = () => {
                 required
               />
             </div>
-
-            <div className="form-group">
-              <label htmlFor="mantelzorger" className="form-label">
-                * Email Mantelzorger
-              </label>
-              <input
-                type="email"
-                id="mantelzorger"
-                name="mantelzorger"
-                value={form.mantelzorger}
-                onChange={handleChange}
-                className="form-input"
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="voornaamMantelzorger" className="form-label">
-                * Voornaam Mantelzorger
-              </label>
-              <input
-                type="text"
-                id="voornaamMantelzorger"
-                name="voornaamMantelzorger"
-                value={form.voornaamMantelzorger}
-                onChange={handleChange}
-                className="form-input"
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="achternaamMantelzorger" className="form-label">
-                * Achternaam Mantelzorger
-              </label>
-              <input
-                type="text"
-                id="achternaamMantelzorger"
-                name="achternaamMantelzorger"
-                value={form.achternaamMantelzorger}
-                onChange={handleChange}
-                className="form-input"
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="last_name" className="form-label">
-                Adres
-              </label>
-              <input type="text" className="form-input" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="last_name" className="form-label">
-                Stad
-              </label>
-              <input type="text" className="form-input" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="last_name" className="form-label">
-                Provincie
-              </label>
-              <input type="text" className="form-input" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="last_name" className="form-label">
-                BSN
-              </label>
-              <input type="text" className="form-input" />
-            </div>
           </div>
 
           <div className="button-container">
@@ -214,4 +138,4 @@ const CaregiverInviteUserPage: React.FC = () => {
   );
 };
 
-export default CaregiverInviteUserPage;
+export default InviteCaregiver;
