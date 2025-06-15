@@ -301,6 +301,7 @@ const DynamicForm = () => {
                 {explanationHasError && (
                   <p className="error-message">Toelichting is verplicht</p>
                 )}
+                 <hr></hr>
               </div>
             )}
           </div>
@@ -427,6 +428,7 @@ const DynamicForm = () => {
                 {ratingExplanationHasError && (
                   <p className="error-message">Toelichting is verplicht</p>
                 )}
+                 <hr></hr>
               </div>
             )}
           </div>
