@@ -31,8 +31,18 @@ const WelcomeText = () => {
         </h1>
 
         <p className="hero-subtitle">
-          Voor patiënten en zorgverleners die het revalidatietraject helder,
-          persoonlijk en effectief willen volgen.
+          {userRole === "patient" ? (
+            <>
+              Deze app helpt jou als revalidant om jouw ervaringen tijdens het proefverlof eenvoudig vast te leggen. 
+              Je kunt per ruimte in je woning aangeven hoe het is gegaan, wat goed ging en waar je tegenaan liep. 
+              Ook kun je foto's of video's toevoegen om jouw situatie beter uit te leggen. Zo kan jouw behandelteam 
+              na het proefverlof beter inspelen op jouw thuissituatie.
+            </>
+          ) : (
+            <>
+              Voor patiënten en zorgverleners die het revalidatietraject helder, persoonlijk en effectief willen volgen.
+            </>
+          )}
         </p>
 
         <button className="cta-button" onClick={handleGetStarted}>

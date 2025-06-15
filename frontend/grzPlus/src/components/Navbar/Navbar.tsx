@@ -54,7 +54,6 @@ export default function Navbar({
         ]
       : userRole === "caregiver"
       ? [
-          { to: "/", label: "Home" },
           { to: "/dashboard", label: "Dashboard" },
           { to: "/patient-toevoegen", label: "Patient toevoegen" },
           { to: "/patienten", label: "Patient Overzicht" },
@@ -62,7 +61,6 @@ export default function Navbar({
         ]
       : userRole === "admin"
       ? [
-          { to: "/", label: "Home" },
           { to: "/dashboard", label: "Dashboard" },
           { to: "/patient-toevoegen", label: "Revalidant toevoegen" },
           { to: "/zorgverlener-toevoegen", label: "Zorgverlener toevoegen" },

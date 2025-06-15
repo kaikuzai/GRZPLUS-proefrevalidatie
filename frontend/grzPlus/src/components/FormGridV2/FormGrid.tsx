@@ -118,7 +118,7 @@ const FormGrid = () => {
       <ProgressIndicator completed={completedCount} total={forms.length} />
 
       <div className="grid-container">
-        {forms.map((form, index) => {
+        {[...forms].reverse().map((form, index) => {
           const isCompleted = completedFormSlugs.includes(form.slug);
 
           return (
