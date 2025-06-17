@@ -36,7 +36,7 @@ const defaultSteps: OnboardingStep[] = [
     title: "Uw formulieren",
     subtitle: "Hier geeft u aan wat uw ervaring is in elke ruimte",
     description:
-      "Dit zijn de formulieren die u moet invullen zodat wij weten waar jij thuis nog meer ondersteuning bij nodig hebt.",
+      "Dit zijn de formulieren die u moet invullen zodat wij weten waar uw thuis nog meer ondersteuning bij nodig hebt.",
     image: "onboarding/form-grid.png",
     textColor: "white",
   },
