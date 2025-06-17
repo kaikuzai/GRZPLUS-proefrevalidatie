@@ -33,14 +33,14 @@ const WelcomeText = () => {
         <p className="hero-subtitle">
           {userRole === "patient" ? (
             <>
-              Deze app helpt jou als revalidant om jouw ervaringen tijdens het proefverlof eenvoudig vast te leggen. 
-              Je kunt per ruimte in je woning aangeven hoe het is gegaan, wat goed ging en waar je tegenaan liep. 
-              Ook kun je foto's of video's toevoegen om jouw situatie beter uit te leggen. Zo kan jouw behandelteam 
-              na het proefverlof beter inspelen op jouw thuissituatie.
+              Deze app helpt u als client om uw ervaringen tijdens het proefverlof eenvoudig vast te leggen. 
+              U kunt per ruimte in uw woning aangeven hoe het is gegaan, wat goed ging en waar u tegenaan liep. 
+              Ook kunt u foto's of video's toevoegen om uw situatie beter uit te leggen. Zo kan uw behandelteam 
+              na het proefverlof beter inspelen op uw thuissituatie.
             </>
           ) : (
             <>
-              Voor patiënten en zorgverleners die het revalidatietraject helder, persoonlijk en effectief willen volgen.
+              Voor clienten en zorgverleners die het revalidatietraject helder, persoonlijk en effectief willen volgen.
             </>
           )}
         </p>

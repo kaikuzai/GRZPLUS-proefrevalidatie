@@ -112,7 +112,7 @@ const CaregiverDashboard = () => {
 
   return (
     <div className="caregiver-dashboard">
-      <h1 className="dashboard-title">Patiënt Formulier Antwoorden</h1>
+      <h1 className="dashboard-title">Client Formulier Antwoorden</h1>
 
       <div className="dashboard-controls">
         <div className="filter-container">
@@ -122,7 +122,7 @@ const CaregiverDashboard = () => {
             id="email-filter"
             value={emailFilter}
             onChange={handleEmailFilterChange}
-            placeholder="Vul email van patient in"
+            placeholder="Vul email van client in"
           />
         </div>
         <div className="response-count">
@@ -141,7 +141,7 @@ const CaregiverDashboard = () => {
             <thead>
               <tr>
                 <th>Formulier Naam</th>
-                <th>Patiënt Naam</th>
+                <th>Client Naam</th>
                 <th>Email</th>
                 <th>Inzenddatum</th>
               </tr>

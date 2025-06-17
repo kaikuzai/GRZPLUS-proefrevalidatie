@@ -63,7 +63,7 @@ const SetPasswordPage: React.FC = () => {
     }
 
     if (password.length < 8) {
-      setError("Je wachtwoord moet minimaal 8 tekens bevatten");
+      setError("Uw wachtwoord moet minimaal 8 tekens bevatten");
       return;
     }
 
@@ -85,7 +85,7 @@ const SetPasswordPage: React.FC = () => {
         setError(result.message);
       }
     } catch (err) {
-      setError("Er was een storing tijdens het instellen van jouw wachtwoord");
+      setError("Er was een storing tijdens het instellen van uw wachtwoord");
     } finally {
       setLoading(false);
     }
@@ -105,7 +105,7 @@ const SetPasswordPage: React.FC = () => {
     return (
       <div className="set-password-container">
         <div className="set-password-card">
-          <h1 className="set-password-title">Stel je wachtwoord in</h1>
+          <h1 className="set-password-title">Stel uw wachtwoord in</h1>
           <div className="error-message">{error}</div>
         </div>
       </div>
@@ -121,7 +121,7 @@ const SetPasswordPage: React.FC = () => {
             Wachtwoord succesvol ingesteld!
           </h1>
           <div className="success-message">
-            Je wachtwoord is succesvol ingesteld. We leiden je nu door naar een
+            Uw wachtwoord is succesvol ingesteld. We leiden u nu door naar een
             korte rondleiding...
           </div>
           <div className="loading-indicator">
@@ -137,9 +137,9 @@ const SetPasswordPage: React.FC = () => {
       <Navbar />
       <div className="set-password-container">
         <div className="set-password-card">
-          <h1 className="set-password-title">Stel je wachtwoord in</h1>
+          <h1 className="set-password-title">Stel uw wachtwoord in</h1>
           <p className="set-password-subtitle">
-            Stel een wachtwoord in om jouw account af te maken
+            Stel een wachtwoord in om uw account af te maken
           </p>
 
           {error && <div className="error-message">{error}</div>}
@@ -155,7 +155,7 @@ const SetPasswordPage: React.FC = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="form-input"
-                placeholder="Vul je wachtwoord in"
+                placeholder="Vul uw wachtwoord in"
                 required
                 minLength={8}
               />
@@ -171,7 +171,7 @@ const SetPasswordPage: React.FC = () => {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="form-input"
-                placeholder="Bevestig je wachtwoord"
+                placeholder="Bevestig uw wachtwoord"
                 required
                 minLength={8}
               />

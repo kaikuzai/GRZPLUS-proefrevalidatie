@@ -54,7 +54,7 @@ const LoginCard: React.FC = () => {
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          placeholder="Vul je e-mail in"
+          placeholder="Vul uw e-mail in"
           autoComplete="email"
           required
         />
@@ -66,7 +66,7 @@ const LoginCard: React.FC = () => {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Vul hier je wachtwoord in"
+          placeholder="Vul hier uw wachtwoord in"
           autoComplete="new-password"
           required
         />

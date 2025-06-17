@@ -187,13 +187,13 @@ const DynamicForm = () => {
           showAlert(
             "success",
             "Fantastisch Gedaan!",
-            "Je formulier is perfect ingevuld en succesvol verzonden! We kunnen nu jouw formulier inzien. Blijf zo doorgaan!"
+            "Uw formulier is perfect ingevuld en succesvol verzonden! We kunnen nu uw formulier inzien. Blijf zo doorgaan!"
           );
         } else {
           showAlert(
             "error",
             "Verzending Mislukt",
-            "Er ging wat mis bij het verzenden van je formulier. Probeer het opnieuw."
+            "Er ging wat mis bij het verzenden van uw formulier. Probeer het opnieuw."
           );
         }
       }
@@ -511,7 +511,7 @@ const DynamicForm = () => {
           <div className="modal">
             <h3>Formulier Legen?</h3>
             <p>
-              Weet je zeker dat je alle formuliervelden wilt wissen? Deze actie
+              Weet u zeker dat u alle formuliervelden wilt wissen? Deze actie
               kan niet ongedaan worden gemaakt.
             </p>
             <div className="modal-actions">

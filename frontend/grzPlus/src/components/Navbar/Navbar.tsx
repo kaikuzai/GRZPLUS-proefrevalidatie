@@ -55,16 +55,16 @@ export default function Navbar({
       : userRole === "caregiver"
       ? [
           { to: "/dashboard", label: "Dashboard" },
-          { to: "/patient-toevoegen", label: "Patient toevoegen" },
-          { to: "/patienten", label: "Patient Overzicht" },
+          { to: "/patient-toevoegen", label: "Client toevoegen" },
+          { to: "/patienten", label: "Client Overzicht" },
           { to: pathname, label: "Logout", func: handleLogout },
         ]
       : userRole === "admin"
       ? [
           { to: "/dashboard", label: "Dashboard" },
-          { to: "/patient-toevoegen", label: "Revalidant toevoegen" },
+          { to: "/patient-toevoegen", label: "Client toevoegen" },
           { to: "/zorgverlener-toevoegen", label: "Zorgverlener toevoegen" },
-          { to: "/patienten", label: "Patient Overzicht" },
+          { to: "/patienten", label: "Client Overzicht" },
           { to: pathname, label: "Logout", func: handleLogout },
         ]
       : []
@@ -150,7 +150,7 @@ export default function Navbar({
           <div className="modal">
             <h3>Uitloggen?</h3>
             <p className="confirmation-text">
-              Weet je zeker dat je wilt uitloggen?
+              Weet u zeker dat u wilt uitloggen?
             </p>
             <div className="modal-actions">
               <button className="cancel-button" onClick={cancelLogout}>

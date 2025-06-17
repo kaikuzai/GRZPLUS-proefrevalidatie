@@ -121,7 +121,7 @@ const PatientFormView = ({ patientId, onBack }: PatientFormViewProps) => {
     <div className="patient-forms-view">
       {onBack && (
         <button className="back-button" onClick={onBack}>
-          &larr; Terug naar Patiëntenlijst
+          &larr; Terug naar Clientenlijst
         </button>
       )}
 
