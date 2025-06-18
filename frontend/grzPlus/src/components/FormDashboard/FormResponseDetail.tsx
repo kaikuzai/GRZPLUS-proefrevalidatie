@@ -150,7 +150,7 @@ const FormResponseDetail: React.FC<FormResponseDetailProps> = ({
         <h1>{response.formName}</h1>
         <div className="response-meta">
           <p>
-            <strong>Patiënt:</strong> {response.patientName || "N/A"}
+            <strong>Client:</strong> {response.patientName || "N/A"}
           </p>
           <p>
             <strong>Email:</strong> {response.patientEmail}

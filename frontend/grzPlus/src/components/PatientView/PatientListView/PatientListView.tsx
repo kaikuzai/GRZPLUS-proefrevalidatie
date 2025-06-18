@@ -72,7 +72,7 @@ const PatientListView = () => {
   };
 
   if (loading) {
-    return <div className="patients-loading">Patiëntenlijst laden...</div>;
+    return <div className="patients-loading">Clientenlijst laden...</div>;
   }
 
   if (error) {
@@ -88,7 +88,7 @@ const PatientListView = () => {
 
   return (
     <div className="patient-list-view">
-      <h1 className="patient-list-title">Patiënten Overzicht</h1>
+      <h1 className="patient-list-title">Clienten Overzicht</h1>
 
       <div className="patient-list-controls">
         <div className="search-container">
@@ -102,13 +102,13 @@ const PatientListView = () => {
         </div>
         <div className="patient-count">
           {filteredPatients.length}{" "}
-          {filteredPatients.length === 1 ? "patiënt" : "patiënten"} gevonden
+          {filteredPatients.length === 1 ? "client" : "clienten"} gevonden
         </div>
       </div>
 
       {filteredPatients.length === 0 ? (
         <div className="no-patients">
-          Geen patiënten voldoen aan je zoekcriteria.
+          Geen clienten voldoen aan je zoekcriteria.
         </div>
       ) : (
         <div className="patient-grid">

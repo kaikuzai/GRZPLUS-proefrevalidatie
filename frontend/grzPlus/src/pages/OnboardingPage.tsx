@@ -25,26 +25,26 @@ interface OnboardingPageProps {
 const defaultSteps: OnboardingStep[] = [
   {
     title: "Welkom bij GRZ Plus!",
-    subtitle: "Stel eerst je voorkeuren in",
+    subtitle: "Stel eerst uw voorkeuren in",
     description:
-      "We zijn blij je aan boord te hebben. Voordat we beginnen, kun je hieronder de tekstgrootte aanpassen naar wat voor jou het prettigst leest.",
+      "We zijn blij u aan boord te hebben. Voordat we beginnen, kun u hieronder de tekstgrootte aanpassen naar wat voor jou het prettigst leest.",
     icon: "⚙️",
     textColor: "white",
     showTextSizeController: true,
   },
   {
-    title: "Jouw formulieren",
-    subtitle: "Hier geef je aan wat jouw ervaring is in elke ruimte",
+    title: "Uw formulieren",
+    subtitle: "Hier geeft u aan wat uw ervaring is in elke ruimte",
     description:
-      "Dit zijn de formulieren die je moet invullen zodat wij weten waar jij thuis nog meer ondersteuning bij nodig hebt.",
+      "Dit zijn de formulieren die u moet invullen zodat wij weten waar uw thuis nog meer ondersteuning bij nodig hebt.",
     image: "onboarding/form-grid.png",
     textColor: "white",
   },
   {
     title: "Formulier",
-    subtitle: "Laat ons weten hoe jouw ervaring thuis is",
+    subtitle: "Laat ons weten hoe uw ervaring thuis is",
     description:
-      "Via deze formulieren kan je ons laten weten hoe jouw ervaring thuis zijn. Laat het ons weten wanneer er iets mis gaat en hoe dit verholpen kan worden in de toekomst!",
+      "Via deze formulieren kunt u ons laten weten hoe uw ervaring thuis zijn. Laat het ons weten wanneer er iets mis gaat en hoe dit verholpen kan worden in de toekomst!",
     image: "/onboarding/formulier.png",
     textColor: "white",
   },
@@ -52,15 +52,15 @@ const defaultSteps: OnboardingStep[] = [
     title: "Ja Nee vragen",
     subtitle: "Klik op ja of op nee",
     description:
-      "Als je op Ja drukt vragen we nog even om een toelichting. Laat ons weten hoe jouw ervaring precies",
+      "Als u op Ja drukt vragen we nog even om een toelichting. Laat ons weten hoe uw ervaring precies",
     image: "/onboarding/ja-nee-vragen.png",
     textColor: "white",
   },
   {
-    title: "Geef jouw beoordeling",
+    title: "Geef uw beoordeling",
     subtitle: "Laat ons zien hoe het met u gaat",
     description:
-      "Met deze smileys kan je aangeven hoe jouw ervaring is geweest. Dit kan gaan van heel goed, naar heel slecht",
+      "Met deze smileys kunt u aangeven hoe uw ervaring is geweest. Dit kan gaan van heel goed, naar heel slecht",
     image: "/onboarding/rating-questions.png",
     textColor: "white",
   },
@@ -76,7 +76,7 @@ const defaultSteps: OnboardingStep[] = [
     title: "Klaar om te Beginnen!",
     subtitle: "Laten we aan de slag gaan",
     description:
-      "Je bent nu klaar om GRZ Plus ten volle te benutten. Veel succes en welkom bij het team!",
+      "U bent nu klaar om GRZ Plus ten volle te benutten. Veel succes en welkom bij het team!",
     icon: "🚀",
     textColor: "white",
   },
@@ -252,7 +252,7 @@ const OnboardingPage: React.FC<OnboardingPageProps> = ({
               <div className="onboarding-text-controller">
                 <TextSizeController className="onboarding-controller" />
                 <p className="controller-help-text">
-                  💡 Tip: Je kunt de tekstgrootte later altijd aanpassen via de
+                  💡 Tip: U kunt de tekstgrootte later altijd aanpassen via de
                   instellingen.
                 </p>
               </div>

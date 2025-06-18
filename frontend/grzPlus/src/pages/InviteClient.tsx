@@ -76,7 +76,7 @@ const InvitePatient: React.FC = () => {
     <>
       <Navbar />
       <div className="invite-user-container">
-        <h1 className="invite-user-title">Nieuwe gebruiker uitnodigen</h1>
+        <h1 className="invite-user-title">Client uitnodigen</h1>
 
         {error && <div className="error-message">{error}</div>}
 

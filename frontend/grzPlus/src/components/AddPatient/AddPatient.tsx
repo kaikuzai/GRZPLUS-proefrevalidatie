@@ -279,7 +279,7 @@ const AddPatient = () => {
           <div className="modal">
             <h3>Formulier?</h3>
             <p>
-              Weet je zeker dat je alle formuliervelden wilt wissen? Deze actie
+              Weet u zeker dat u alle formuliervelden wilt wissen? Deze actie
               kan niet ongedaan worden gemaakt.
             </p>
             <div className="modal-actions">
