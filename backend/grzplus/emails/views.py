@@ -21,7 +21,8 @@ def set_password_email_patient(user, context: dict):
             subject=subject, 
             body=plain_message,
             from_email=None,
-            to=["dylan.okyere@gmail.com"],
+            # 
+            to=[user.email],
         )
 
         message.attach_alternative(html_message, "text/html")
@@ -44,7 +45,7 @@ def set_password_email_caregiver(user, context: dict):
             subject=subject, 
             body=plain_message,
             from_email=None,
-            to=["dylan.okyere@gmail.com"],
+            to=[user.email],
         )
 
         message.attach_alternative(html_message, "text/html")

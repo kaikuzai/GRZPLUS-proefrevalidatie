@@ -13,14 +13,14 @@ class Command(BaseCommand):
 
         # Define the subject and message for the email
         subject = "Welcome to Our Platform"
-        message = f"Hi dylan,\n\nThank you for registering on our platform."
+        message = f"Hi \n\nThank you for registering on our platform."
 
         # Send the email (simple plain text email)
         send_mail(
             subject,
             message,  # Plain text message
             settings.DEFAULT_FROM_EMAIL,  # From email address (set this in settings)
-            ['dylan.okyere@gmail.com'],
+            [],
             fail_silently=False
         )
 
@@ -31,11 +31,11 @@ class Command(BaseCommand):
             subject=subject, 
             body=plain_message,
             from_email=None,
-            to=['dylan.okyere@gmail.com'],
+            to=[],
         )
 
         message.attach_alternative(html_message, "text/html")
         message.send()
 
         # Inform the user that the email was sent
-        self.stdout.write(self.style.SUCCESS(f"Test email sent to dylan.okyere@gmail.com"))
+        self.stdout.write(self.style.SUCCESS(f"Test email sent to .okyere@gmail.com"))
