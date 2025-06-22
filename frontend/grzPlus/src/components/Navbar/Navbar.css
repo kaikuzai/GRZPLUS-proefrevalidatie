@@ -1,4 +1,4 @@
-/* Navbar container */
+
 .navbar {
     width: 100%;
     background-color: white;
@@ -29,7 +29,7 @@
     height: 4rem;
   }
   
-  /* Logo container */
+
   .logo-container {
     display: flex;
     align-items: center;
@@ -81,7 +81,7 @@
     background-color: #f3f4f6;
   }
   
-  /* Mobile menu button */
+
   .mobile-menu-button {
     display: flex;
     align-items: center;
@@ -127,7 +127,7 @@
     border-width: 0;
   }
   
-  /* Mobile menu */
+
   .mobile-menu {
     display: none;
   }

@@ -1,4 +1,3 @@
-// hooks/useAuthStatus.ts
 import apiClient from "../services/api-client-test";
 
 interface TokenInfo {

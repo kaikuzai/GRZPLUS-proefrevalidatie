@@ -7,7 +7,7 @@ import authorizationReducer from "./authorization/authorizationSlice";
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['authorization'] // Only persist the authorization slice
+    whitelist: ['authorization'] 
 };
 
 const rootReducer = combineReducers({

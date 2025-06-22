@@ -52,7 +52,7 @@ const FormResponseDetail: React.FC<FormResponseDetailProps> = ({
   // Format date for display
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat("en-US", {
+    return new Intl.DateTimeFormat("nl-NL", {
       year: "numeric",
       month: "long",
       day: "numeric",

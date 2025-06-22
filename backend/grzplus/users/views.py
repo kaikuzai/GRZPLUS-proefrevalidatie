@@ -266,7 +266,6 @@ class AssignCaregiverView(APIView):
             # Get the patient
             patient = User.objects.get(id=patient_id, role=Role.PATIENT)
 
-            print(patient.caregiver)
             
             # For caregivers, only allow them to modify patients they're already assigned to
             if request.user.role == Role.CAREGIVER and request.user not in patient.caregiver.all():
@@ -334,8 +333,6 @@ class VerifyTokenView(APIView):
         try:
             # Verify token
             UntypedToken(token)
-
-            print("untyped whatever", UntypedToken(token))
             
             # Get user from token
             from rest_framework_simplejwt.tokens import AccessToken

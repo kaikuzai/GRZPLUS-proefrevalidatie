@@ -92,7 +92,7 @@
   color: #3b82f6;
 }
 
-/* Text content */
+
 .onboarding-text {
   max-width: 600px;
 }
@@ -154,7 +154,7 @@
   background: #10b981;
 }
 
-/* Navigation */
+
 .onboarding-navigation {
   display: flex;
   justify-content: space-between;
@@ -317,9 +317,6 @@
   }
 }
 
-/* Add these styles to your existing OnboardingPage.css file */
-
-/* Text Size Controller Integration */
 .onboarding-text-controller {
   margin-top: 32px;
   padding-top: 24px;
@@ -339,7 +336,7 @@
   max-width: 300px;
 }
 
-/* Mobile responsive adjustments */
+
 @media screen and (max-width: 768px) {
   .onboarding-text-controller {
     margin-top: 24px;
@@ -352,7 +349,7 @@
   }
 }
 
-/* High contrast mode support for onboarding */
+
 @media (prefers-contrast: high) {
   .onboarding-controller {
     background-color: white;

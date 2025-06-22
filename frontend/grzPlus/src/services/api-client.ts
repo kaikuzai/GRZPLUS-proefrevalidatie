@@ -2,10 +2,10 @@ import axios from "axios";
 
 const apiClient = axios.create({
     baseURL: 'http://127.0.0.1:8000/',
-    withCredentials: false, // Changed from true
+    withCredentials: false, 
 });
 
-// Add request interceptor to include JWT token
+
 apiClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('access_token');
@@ -19,7 +19,7 @@ apiClient.interceptors.request.use(
   }
 );
 
-// Add response interceptor to handle token refresh
+
 apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {

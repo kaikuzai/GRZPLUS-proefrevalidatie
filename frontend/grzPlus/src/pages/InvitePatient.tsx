@@ -44,7 +44,6 @@ const InvitePatient: React.FC = () => {
       );
 
       setSuccess(response.data.message);
-      // Reset form
       setForm({
         email: "",
         firstName: "",
@@ -52,7 +51,6 @@ const InvitePatient: React.FC = () => {
       });
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
-        // Handle API error response
         setError(err.response.data.detail || "Failed to invite user");
       } else {
         setError("An unexpected error occurred");

@@ -16,7 +16,6 @@ interface FormResponse {
   };
 }
 
-// Custom hook to fetch form responses (mock implementation)
 const useFormResponses = () => {
   const [responses, setResponses] = useState<FormResponse[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -56,7 +55,6 @@ const CaregiverDashboard = () => {
     null
   );
 
-  // Update filtered responses when responses or filter changes
   useEffect(() => {
     if (emailFilter.trim() === "") {
       setFilteredResponses(responses);
@@ -80,12 +78,11 @@ const CaregiverDashboard = () => {
     setSelectedResponse(null);
   };
 
-  // Format date for display
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat("en-US", {
+    return new Intl.DateTimeFormat("nl-NL", {
       year: "numeric",
-      month: "short",
+      month: "long",
       day: "numeric",
       hour: "2-digit",
       minute: "2-digit",
@@ -100,7 +97,6 @@ const CaregiverDashboard = () => {
     return <div className="dashboard-error">Error: {error}</div>;
   }
 
-  // If a response is selected, show the detail view
   if (selectedResponse) {
     return (
       <FormResponseDetail

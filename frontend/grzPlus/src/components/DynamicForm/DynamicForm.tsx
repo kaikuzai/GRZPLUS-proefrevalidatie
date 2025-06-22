@@ -167,15 +167,10 @@ const DynamicForm = () => {
       return;
     }
 
-    // Submit form data with labels included
     try {
       console.log("Preparing to submit form data");
 
-      // Submit form if we have the required data
       if (formData?.name && formData?.id) {
-        console.log("Form values before submission:", values);
-        console.log("selected file", selectedFile);
-
         const succeeded = await submitForm(
           formData.id,
           formData.name,
@@ -275,13 +270,14 @@ const DynamicForm = () => {
               )}
             </div>
 
-            {/* Explanation field that appears when "yes" is selected */}
             {showExplanation && (
               <div
-                className={`form-field ${explanationHasError ? "error" : ""}`}
+                className={`form-field explanation-field ${
+                  explanationHasError ? "error" : ""
+                }`}
               >
                 <label htmlFor={explanationId}>
-                  Toelichting
+                  Toelichting: {field.label}
                   <span className="required">*</span>
                 </label>
                 <input
@@ -301,7 +297,7 @@ const DynamicForm = () => {
                 {explanationHasError && (
                   <p className="error-message">Toelichting is verplicht</p>
                 )}
-                 <hr></hr>
+                <hr></hr>
               </div>
             )}
           </div>
@@ -396,11 +392,10 @@ const DynamicForm = () => {
                 </div>
               </div>
               {hasError && (
-                <p className="error-message">Selecteer een waardering</p>
+                <p className="error-message">Selecteer een beoordeling</p>
               )}
             </div>
 
-            {/* Explanation field that appears when negative rating is selected */}
             {showRatingExplanation && (
               <div
                 className={`form-field ${
@@ -414,7 +409,7 @@ const DynamicForm = () => {
                 <input
                   type="text"
                   id={ratingExplanationId}
-                  placeholder="Geef een toelichting bij uw waardering"
+                  placeholder="Geef een toelichting bij uw beoordeling"
                   value={values[ratingExplanationId]?.value || ""}
                   onChange={(e) =>
                     handleInputChange(
@@ -428,7 +423,7 @@ const DynamicForm = () => {
                 {ratingExplanationHasError && (
                   <p className="error-message">Toelichting is verplicht</p>
                 )}
-                 <hr></hr>
+                <hr></hr>
               </div>
             )}
           </div>
@@ -455,11 +450,19 @@ const DynamicForm = () => {
     <div className="dynamic-form-container">
       <TextSizeController />
       <h1 className="form-title">{formData.name}</h1>
-      <h2 className="form-subtitle">
-        Laat de revalidant deze vragen zoveel mogelijk zelf beantwoorden. U mag
-        helpen met lezen of invullen, maar het gaat om de ervaring van de
-        revalidant.
-      </h2>
+      {formData.name !== "Voor mantelzorgers" ? (
+        <h2 className="form-subtitle">
+          Laat de revalidant deze vragen zoveel mogelijk zelf beantwoorden. U
+          mag helpen met lezen of invullen, maar het gaat om de ervaring van de
+          revalidant.
+        </h2>
+      ) : (
+        <h2 className="form-subtitle">
+          Deze vragenlijst is specifiek bedoeld voor mantelzorgers. Vul hier
+          jouw ervaring in met betrekking tot het thuisrevalidatieproces van de
+          revaliderende.
+        </h2>
+      )}
 
       <button
         className="return-button"
@@ -505,7 +508,6 @@ const DynamicForm = () => {
         </div>
       </form>
 
-      {/* Clear Confirmation Modal */}
       {showClearConfirm && (
         <div className="modal-overlay">
           <div className="modal">
@@ -526,7 +528,6 @@ const DynamicForm = () => {
         </div>
       )}
 
-      {/* Custom Alert Modal */}
       {alertModal.show && (
         <div className="modal-overlay">
           <div className={`modal ${alertModal.type}-alert`}>

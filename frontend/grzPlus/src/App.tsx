@@ -3,8 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import { routes } from "./routes/routeConfig";
 
 function App() {
-  const isAuthenticated = true;
-
   return (
     <Routes>
       {routes.map(({ path, element }) => (

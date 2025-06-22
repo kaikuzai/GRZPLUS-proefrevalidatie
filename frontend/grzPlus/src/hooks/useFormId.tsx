@@ -9,7 +9,6 @@ interface FormField {
   required: boolean;
 }
 
-// Form data structure
 interface FormData {
   id: string;
   name: string;

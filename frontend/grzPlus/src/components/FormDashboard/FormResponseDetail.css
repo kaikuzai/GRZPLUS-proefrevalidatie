@@ -134,8 +134,10 @@
   }
   
   .answer-value {
-    flex-grow: 1;
+    display: flex;
     color: #333;
+    width: 100%;
+    justify-content: center;
   }
 
   /* Media section styles */

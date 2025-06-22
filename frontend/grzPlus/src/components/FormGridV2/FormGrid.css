@@ -1,4 +1,4 @@
-/* FromGrid.css */
+
 
 .loading {
   display: flex;
@@ -9,7 +9,7 @@
   color: #666;
 }
 
-/* Progress Indicator Styles */
+
 .progress-container {
   max-width: 1200px;
   margin: 0 auto 30px auto;
@@ -62,7 +62,7 @@
   color: #10b981;
 }
 
-/* Grid Styles */
+
 .grid-container {
   display: grid;
   grid-template-columns: 1fr;
@@ -143,7 +143,7 @@
   letter-spacing: 0.5px;
 }
 
-/* Modal Styles */
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -216,7 +216,7 @@
   background-color: #e2e8f0;
 }
 
-/* Responsive Design */
+
 @media screen and (max-width: 767px) {
   .progress-header {
     flex-direction: column;
@@ -229,14 +229,14 @@
   }
 }
 
-/* Tablet view - 2 columns */
+
 @media screen and (min-width: 768px) {
   .grid-container {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Desktop view - 3 columns */
+
 @media screen and (min-width: 1024px) {
   .grid-container {
     grid-template-columns: repeat(3, 1fr);

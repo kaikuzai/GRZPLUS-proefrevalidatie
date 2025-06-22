@@ -34,9 +34,7 @@ export default function Navbar({
   };
 
   const confirmLogout = async () => {
-    console.log("authentication before", isAuthenticated);
     await logout();
-    console.log("authentication after", isAuthenticated);
     setShowClearConfirm(false);
     navigate("/");
   };
@@ -79,7 +77,6 @@ export default function Navbar({
       <nav className="navbar">
         <div className="navbar-container">
           <div className="navbar-content">
-            {/* Logo container */}
             <div className="logo-container">
               {logo ? (
                 <div className="logo-image-container">
@@ -91,7 +88,6 @@ export default function Navbar({
               )}
             </div>
 
-            {/* Desktop navigation */}
             <div className="desktop-nav">
               <div className="nav-links">
                 {navLinks.map((link) => (
@@ -106,7 +102,6 @@ export default function Navbar({
               </div>
             </div>
 
-            {/* Mobile menu button */}
             <div className="mobile-menu-button">
               <button
                 type="button"
@@ -126,7 +121,6 @@ export default function Navbar({
           </div>
         </div>
 
-        {/* Mobile menu, show/hide based on menu state */}
         <div
           className={`mobile-menu ${isMenuOpen ? "open" : ""}`}
           id="mobile-menu"

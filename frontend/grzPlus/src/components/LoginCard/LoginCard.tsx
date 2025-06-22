@@ -47,7 +47,6 @@ const LoginCard: React.FC = () => {
       <form onSubmit={handleSubmit} className="login-form">
         <h2 className="login-title">Login</h2>
 
-        {/* Username Input */}
         <label className="login-label">Email</label>
         <input
           className="email-input"
@@ -59,7 +58,6 @@ const LoginCard: React.FC = () => {
           required
         />
 
-        {/* Password Input */}
         <label className="login-label">Wachtwoord</label>
         <input
           className="password-input"
@@ -71,7 +69,6 @@ const LoginCard: React.FC = () => {
           required
         />
 
-        {/* Submit Button */}
         <button
           className="login-button"
           type="submit"
@@ -80,7 +77,6 @@ const LoginCard: React.FC = () => {
           Login
         </button>
 
-        {/* Response Message */}
         {response && (
           <p
             style={{

@@ -9,9 +9,8 @@ interface TextSizeControllerProps {
 const TextSizeController: React.FC<TextSizeControllerProps> = ({
   className = "",
 }) => {
-  const [fontSize, setFontSize] = useState(100); // Base size as percentage
+  const [fontSize, setFontSize] = useState(100);
 
-  // Load saved font size on component mount
   useEffect(() => {
     const savedSize = localStorage.getItem("app-font-size");
     if (savedSize) {
