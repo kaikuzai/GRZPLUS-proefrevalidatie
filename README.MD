@@ -7,6 +7,7 @@ This application is designed to support healthcare institutions in tracking and 
 ## 🧠 Project Overview
 
 The platform simplifies communication between patients and caregivers by offering:
+
 - A secure onboarding flow for patients
 - A clear overview of form progress across household rooms
 - Insightful summaries of patient responses for caregivers
@@ -14,6 +15,7 @@ The platform simplifies communication between patients and caregivers by offerin
 ## 🏥 Key Features
 
 ### Patient Side
+
 - 📩 **Automatic Account Creation**: Patients are invited via email upon caregiver registration.
 - 🔐 **Secure Login**: Patients set their password through a secure link.
 - 🧭 **Onboarding Flow**: Explains application usage and goals.
@@ -24,19 +26,20 @@ The platform simplifies communication between patients and caregivers by offerin
   - Emoji-based ratings (Very Bad ➝ Very Good)
 
 ### Caregiver Side
+
 - 🧑‍⚕️ **Add & Manage Patients**: Assign patients to your profile.
 - 📊 **View Summaries**: Easily see submitted responses with key answers highlighted.
 - 🔎 **Search Functionality**: Filter by patient or form.
 
 ## 🔧 Tech Stack
 
-| Layer         | Technology                          |
-|---------------|--------------------------------------|
-| Frontend      | React (Vite) + TypeScript           |
-| Backend       | Django + Django Rest Framework      |
+| Layer         | Technology                             |
+| ------------- | -------------------------------------- |
+| Frontend      | React (Vite) + TypeScript              |
+| Backend       | Django + Django Rest Framework         |
 | Auth          | JWT (Custom claims: name, role, email) |
-| Forms Storage | JSON (for flexible form structures) |
-| Database      | SQL (user & metadata)        |
+| Forms Storage | SQL                                    |
+| Database      | SQL (user & metadata)                  |
 
 ## 📂 Folder Structure
 
@@ -70,6 +73,7 @@ project-root/
 ## 🚀 Getting Started
 
 ### Backend
+
 ```bash
 cd backend
 cd grzplus
@@ -80,6 +84,7 @@ python manage.py runserver
 ```
 
 ### Frontend
+
 ```bash
 cd frontend
 cd grzPlus
@@ -88,11 +93,11 @@ npm run dev
 ```
 
 ## 🖼️ Screenshots
+
 > - ✅ Patient Form Progress View  
-<img width="1253" alt="Image" src="https://github.com/user-attachments/assets/01c97079-1cb9-4bf2-bc60-c04e3df961b3" />
+>   <img width="1253" alt="Image" src="https://github.com/user-attachments/assets/01c97079-1cb9-4bf2-bc60-c04e3df961b3" />
 > - 👨‍⚕️ Caregiver Dashboard  
-<img width="1310" alt="Image" src="https://github.com/user-attachments/assets/da69baec-2221-4471-a474-45aa3a7333b2" />
-<img width="1289" alt="Image" src="https://github.com/user-attachments/assets/9b8f7ee2-6da8-47f3-83ba-f483d3e4d0e7" />
+>   <img width="1310" alt="Image" src="https://github.com/user-attachments/assets/da69baec-2221-4471-a474-45aa3a7333b2" /> > <img width="1289" alt="Image" src="https://github.com/user-attachments/assets/9b8f7ee2-6da8-47f3-83ba-f483d3e4d0e7" />
 
 > - 🧭 Onboarding Flow
 
@@ -106,7 +111,7 @@ npm run dev
 
 ## 📌 Roadmap
 
-- [ ] Add media uploads to forms
+- [x] Add media uploads to forms
 - [ ] Implement notifications for caregivers
 - [ ] Add export options (PDF, CSV) for caregivers
 
@@ -118,3 +123,4 @@ Thanks to the GRZ+ project team, testers, and all stakeholders who contributed t
 
 **Maintainer, designer, programmer**  
 Dylan Okyere
+Succes!!
