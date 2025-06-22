@@ -7,7 +7,7 @@ import AuthenticationCheck from "../pages/AuthenticationPage";
 import SetPasswordPage from "../pages/SetPasswordPage";
 import PatientOverviewPage from "../pages/PatientOverviewPage";
 import OnboardingPage from "../pages/OnboardingPage";
-import InvitePatient from "../pages/InviteClient";
+import InvitePatient from "../pages/InvitePatient";
 import InviteCaregiver from "../pages/InviteCaregiver";
 
 interface RouteConfig {

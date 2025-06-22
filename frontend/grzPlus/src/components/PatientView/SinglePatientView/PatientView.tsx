@@ -25,6 +25,14 @@ interface PatientInfo {
   city?: string;
   state?: string;
   zipCode?: string;
+  caregiverEmail?: string;
+}
+
+interface Caregiver {
+  id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
 }
 
 interface PatientFormViewProps {
@@ -33,6 +41,14 @@ interface PatientFormViewProps {
 }
 
 const PatientFormView = ({ patientId, onBack }: PatientFormViewProps) => {
+  console.log(patientId);
+  // Caregiver stuff
+  const [showCaregiverModal, setShowCaregiverModal] = useState(false);
+  const [selectedCaregiverEmail, setSelectedCaregiverEmail] = useState("");
+  const [assigningCaregiver, setAssigningCaregiver] = useState(false);
+  const [caregivers, setCaregivers] = useState<Caregiver[]>([]);
+
+  // patient info
   const [patientForms, setPatientForms] = useState<FormResponse[]>([]);
   const [patientInfo, setPatientInfo] = useState<PatientInfo | null>(null);
   const [selectedForm, setSelectedForm] = useState<FormResponse | null>(null);
@@ -49,17 +65,15 @@ const PatientFormView = ({ patientId, onBack }: PatientFormViewProps) => {
           `/api/users/users/?user_id=${patientId}`
         );
 
-        const patientData = patientResponse.data;
+        const patients = patientResponse.data;
+        const patientData = patients[0];
 
         setPatientInfo({
           id: patientData.id,
           email: patientData.email,
           firstName: patientData.first_name,
           lastName: patientData.last_name,
-          streetAddress: patientData.street_address,
-          city: patientData.city,
-          state: patientData.state,
-          zipCode: patientData.zip_code,
+          caregiverEmail: patientData.caregiver_email,
         });
 
         // Fetch patient form submissions
@@ -82,6 +96,21 @@ const PatientFormView = ({ patientId, onBack }: PatientFormViewProps) => {
     }
   }, [patientId]);
 
+  useEffect(() => {
+    const fetchCaregivers = async () => {
+      try {
+        const response = await apiClient.get<Caregiver[]>(
+          "/api/users/caregivers/"
+        );
+        setCaregivers(response.data);
+      } catch (err) {
+        console.error("Error fetching caregivers:", err);
+      }
+    };
+
+    fetchCaregivers();
+  }, []);
+
   // Format date for display
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -100,6 +129,36 @@ const PatientFormView = ({ patientId, onBack }: PatientFormViewProps) => {
 
   const handleBackToList = () => {
     setSelectedForm(null);
+  };
+
+  const handleAssignCaregiver = async () => {
+    if (!selectedCaregiverEmail) return;
+
+    try {
+      setAssigningCaregiver(true);
+      await apiClient.post("/api/users/assign-caregiver/", {
+        patient_id: patientId,
+        caregiver_email: selectedCaregiverEmail,
+      });
+
+      // Refresh patient data
+      const patientResponse = await apiClient.get(
+        `/api/users/users/?user_id=${patientId}`
+      );
+      const patientData = patientResponse.data[0];
+      setPatientInfo({
+        ...patientInfo!,
+        caregiverEmail: patientData.caregiver_email,
+      });
+
+      setShowCaregiverModal(false);
+      setSelectedCaregiverEmail("");
+    } catch (err) {
+      console.error("Error assigning caregiver:", err);
+      alert("Failed to assign caregiver");
+    } finally {
+      setAssigningCaregiver(false);
+    }
   };
 
   if (loading) {
@@ -127,15 +186,29 @@ const PatientFormView = ({ patientId, onBack }: PatientFormViewProps) => {
 
       <div className="patient-info-section">
         <h1 className="patient-name">
-          {patientInfo?.firstName} {patientInfo?.lastName}
+          {patientInfo?.firstName ? patientInfo?.firstName : "Niks hier"}{" "}
+          {patientInfo?.lastName}
         </h1>
 
         <div className="patient-details">
-          <div className="info-group">
+          <div className="info-group caregiver-display">
             <h3>Contactgegevens</h3>
             <p>
               <strong>Email:</strong> {patientInfo?.email}
             </p>
+          </div>
+
+          <div className="info-group">
+            <h3>Zorgverlener</h3>
+            <p>
+              {patientInfo?.caregiverEmail || "Geen zorgverlener toegewezen"}
+            </p>
+            <button
+              className="assign-caregiver-btn"
+              onClick={() => setShowCaregiverModal(true)}
+            >
+              Zorgverlener toevoegen
+            </button>
           </div>
 
           <div className="info-group">
@@ -179,6 +252,42 @@ const PatientFormView = ({ patientId, onBack }: PatientFormViewProps) => {
           </div>
         )}
       </div>
+
+      {showCaregiverModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Zorgverlener toevoegen</h3>
+            <select
+              value={selectedCaregiverEmail}
+              onChange={(e) => setSelectedCaregiverEmail(e.target.value)}
+              className="caregiver-select"
+            >
+              <option value="">Selecteer een zorgverlener</option>
+              {caregivers.map((caregiver) => (
+                <option key={caregiver.id} value={caregiver.email}>
+                  {caregiver.first_name} {caregiver.last_name} (
+                  {caregiver.email})
+                </option>
+              ))}
+            </select>
+            <div className="modal-actions">
+              <button
+                onClick={() => setShowCaregiverModal(false)}
+                className="cancel-btn"
+              >
+                Annuleren
+              </button>
+              <button
+                onClick={handleAssignCaregiver}
+                disabled={!selectedCaregiverEmail || assigningCaregiver}
+                className="assign-btn"
+              >
+                {assigningCaregiver ? "Toevoegen..." : "Toevoegen"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
