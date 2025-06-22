@@ -1,4 +1,4 @@
-from django.contrib.auth import login, logout, authenticate 
+from django.contrib.auth import login, authenticate 
 from django.shortcuts import get_object_or_404
 from django.conf import settings 
 from django.db.models import Q
@@ -14,15 +14,15 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import User, PasswordResetToken, Role
-from .serializers import UserSerializer, SetPasswordSerializer
+from .serializers import UserSerializer, SetPasswordSerializer, UserShortSerializer, PatientDetailSerializer
 
 
 from emails.views import set_password_email_patient, set_password_email_caregiver
 
 # Create a generic view to list all users
 class UserListView(generics.ListAPIView):
-    queryset = User.objects.all()  # Get all users
-    serializer_class = UserSerializer 
+    queryset = User.objects.all() 
+    serializer_class = PatientDetailSerializer 
 
     def get(self, request, *args, **kwargs):
         queryset = User.objects.all()
@@ -37,39 +37,11 @@ class UserListView(generics.ListAPIView):
             queryset = queryset.filter(id=int(user_id))
 
         if user.role == Role.CAREGIVER:
-            if user_role == Role.PATIENT: 
+            if user_role == Role.PATIENT:
                 queryset = queryset.filter(caregiver=user)    
         
-        serializer = UserSerializer(queryset, many=True)
+        serializer = PatientDetailSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-# Login view 
-class LoginView(APIView):
-    permission_classes = [permissions.AllowAny]
-    
-    def post(self, request, format=None):
-        data = self.request.data
-        
-        username = data['username']
-        password = data['password']
-
-        user = authenticate(username=username, password=f"{password}")
-
-        if user is not None:
-            try:
-                login(request, user)
-                return Response({
-                    'response': 'Succeeded',
-                    'role': user.role,
-                    'email': user.username,
-                    'name': user.first_name,  
-                    })
-            except Exception as e:
-                print(f'Something went wrong authenticating {username}', e)
-        else:
-            return Response({'response': 'Failed'})
-        
 
 
 
@@ -84,10 +56,6 @@ class RegisterPatientWithoutPasswordView(APIView):
         first_name = data['firstName']
         last_name = data['lastName']
 
-        supporter = data['mantelzorger']
-        supporter_first_name = data['voornaamMantelzorger']
-        supporter_last_name = data['achternaamMantelzorger']
-
     
         if User.objects.filter(username=email).exists():
             return Response({"detail":'user already exists'}, status=status.HTTP_409_CONFLICT)
@@ -101,52 +69,20 @@ class RegisterPatientWithoutPasswordView(APIView):
 
             patient.is_active = True 
             patient.set_unusable_password()
-
-
-
-            try:
-                supporter = User.objects.get(username=supporter, role=Role.SUPPORTER)
-            except User.DoesNotExist:
-                supporter = User.objects.create_user(
-                username=supporter,
-                password=None,
-                first_name=supporter_first_name,
-                last_name=supporter_last_name,   # Add last_name if needed
-                role=Role.SUPPORTER)
-
-                supporter_token = PasswordResetToken.objects.create(user = supporter)
-                supporter_token.save()
-
-                reset_url = f"{settings.FRONTEND_URL}/set-password/{supporter_token.token}"
-
-                context =  context = {
-                    'supporter_first_name': supporter.first_name, 
-                    'reset_url': reset_url, 
-                }
-
-                set_password_email_supporter(supporter, context=context)
-
-            patient.supporter = supporter 
             
             try:
                 caregiver = User.objects.get(
                 Q(email=request.user.email),
                 Q(role=Role.CAREGIVER) | Q(role=Role.ADMIN)
 )
-                patient.caregiver = caregiver
+                patient.caregiver.set([caregiver])
+                patient.save()
             except User.DoesNotExist:
                 return Response({"detail": "Caregiver user not found or not authorized"}, status=status.HTTP_400_BAD_REQUEST)
-    
-            
-
-            patient.caregiver = caregiver
-            
-            patient.save()
                 
             patient_token = PasswordResetToken.objects.create(
                 user=patient
             )
-
 
             patient_token.save()
 
@@ -278,8 +214,105 @@ class PasswordView(APIView):
             return Response({"valid": False, "reason": "not_found"})
 
 
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    permission_classes = [permissions.AllowAny]
 
-# !! Add endpoint to check authentication and JWT status 
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        
+        # Add custom claims
+        data['role'] = self.user.role
+        data['email'] = self.user.email
+        data['name'] = self.user.first_name
+        data['id'] = self.user.id
+
+        return data
+    
+class CustomTokenObtainPairView(TokenObtainPairView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = CustomTokenObtainPairSerializer
+
+class LogoutView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        try:
+            refresh_token = request.data["refresh"]
+            if (refresh_token): 
+                token = RefreshToken(refresh_token)
+                token.blacklist()
+                return Response({'success': 'User logged out'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'succes': 'User logged out, no refresh token'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+
+class AssignCaregiverView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, format=None):
+        data = request.data
+        patient_id = data.get('patient_id')
+        caregiver_email = data.get('caregiver_email')
+
+        # Check if requesting user is a caregiver or admin
+        if request.user.role not in [Role.CAREGIVER, Role.ADMIN]:
+            return Response(
+                {"detail": "Only caregivers and admins can assign caregivers"}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        try:
+            # Get the patient
+            patient = User.objects.get(id=patient_id, role=Role.PATIENT)
+
+            print(patient.caregiver)
+            
+            # For caregivers, only allow them to modify patients they're already assigned to
+            if request.user.role == Role.CAREGIVER and request.user not in patient.caregiver.all():
+                return Response(
+                    {"detail": "You can only assign caregivers to your own patients"}, 
+                    status=status.HTTP_403_FORBIDDEN
+                )
+
+            # Get the caregiver to assign
+            try:
+                new_caregiver = User.objects.get(email=caregiver_email, role=Role.CAREGIVER)
+            except User.DoesNotExist:
+                return Response(
+                    {"detail": "Caregiver not found with that email"}, 
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
+            # Assign the new caregiver
+            patient.caregiver.add(new_caregiver)
+            patient.save()
+
+            return Response({
+                'success': True,
+                'message': f'Caregiver {new_caregiver.first_name} {new_caregiver.last_name} assigned to patient'
+            })
+
+        except User.DoesNotExist:
+            return Response(
+                {"detail": "Patient not found"}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+class CaregiverListView(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = UserShortSerializer
+
+    def get_queryset(self):
+        # Only return caregivers for dropdown/selection
+        if self.request.user.role in [Role.CAREGIVER, Role.ADMIN]:
+            return User.objects.filter(role=Role.CAREGIVER)
+        return User.objects.none()
+    
+
+
+
+# This view is for testing visit frontendhost/authenticated 
 from rest_framework_simplejwt.tokens import UntypedToken
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
@@ -327,11 +360,10 @@ class VerifyTokenView(APIView):
             }, status=status.HTTP_401_UNAUTHORIZED)
         
 
-# Add this to your views.py
+
 from django.utils import timezone
 class AuthenticationStatusView(APIView):
-    permission_classes = [permissions.AllowAny]  # Allow anyone to check status
-
+    permission_classes = [permissions.AllowAny] 
     def get(self, request):
         """
         Comprehensive authentication status check for debugging
@@ -457,36 +489,3 @@ class AuthenticationStatusView(APIView):
         
         return Response(auth_data, status=status.HTTP_200_OK)
 
-
-class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-    permission_classes = [permissions.AllowAny]
-
-    def validate(self, attrs):
-        data = super().validate(attrs)
-        
-        # Add custom claims
-        data['role'] = self.user.role
-        data['email'] = self.user.email
-        data['name'] = self.user.first_name
-        data['id'] = self.user.id
-
-        return data
-    
-class CustomTokenObtainPairView(TokenObtainPairView):
-    permission_classes = [permissions.AllowAny]
-    serializer_class = CustomTokenObtainPairSerializer
-
-class LogoutView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def post(self, request):
-        try:
-            refresh_token = request.data["refresh"]
-            if (refresh_token): 
-                token = RefreshToken(refresh_token)
-                token.blacklist()
-                return Response({'success': 'User logged out'}, status=status.HTTP_200_OK)
-            else:
-                return Response({'succes': 'User logged out, no refresh token'}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)

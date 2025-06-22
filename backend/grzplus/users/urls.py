@@ -8,7 +8,10 @@ from .views import (
                     RegisterPatientWithoutPasswordView,
                     RegisterCaregiverWithoutPasswordView,
                     CustomTokenObtainPairView, 
-                    AuthenticationStatusView
+                    AuthenticationStatusView,
+                    AssignCaregiverView,
+                    CaregiverListView, 
+                    
                     )
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView)
 
@@ -28,4 +31,8 @@ urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('token/authentication/', AuthenticationStatusView.as_view(), name='token_refresh'),
+
+    # Patient dashboard 
+    path('assign-caregiver/', AssignCaregiverView.as_view(), name='assign-caregiver'),
+    path('caregivers/', CaregiverListView.as_view(), name='caregiver-list'),
 ]

@@ -3,9 +3,10 @@ from .models import User
 from django.contrib.auth import get_user_model
 
 class UserSerializer(serializers.ModelSerializer):
+    caregiver = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = User
-        fields = ['id', 'email', 'role', 'first_name', 'last_name', 'caregiver_id', 'street_address', 'city', 'state', 'zip_code', 'bsn']
+        fields = ['id', 'email', 'role', 'first_name', 'last_name', 'caregiver']
 
 class UserShortSerializer(serializers.ModelSerializer):
     class Meta: 
@@ -30,6 +31,20 @@ class CreateUserSerializer(serializers.ModelSerializer):
         user.set_unusable_password()
         user.save()
         return user
+    
+class PatientDetailSerializer(serializers.ModelSerializer):
+    caregiver_email = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = User
+        fields = ['id', 'email', 'role', 'first_name', 'last_name', 'caregiver', 
+                 'caregiver_email']
+
+    def get_caregiver_email(self, obj: User):
+        if obj.caregiver.exists():
+            caregivers = obj.caregiver.all()
+            return ", ".join(f"{caregiver.email}" for caregiver in caregivers)
+        return None
 
 class SetPasswordSerializer(serializers.Serializer):
     token = serializers.UUIDField()

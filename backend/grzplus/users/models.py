@@ -26,34 +26,15 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
 
-
-
-    # Fields for Patient
-    email_supporter = models.EmailField(max_length=255, blank=True)
-    street_address = models.CharField(max_length=255, blank=True)
-    city = models.CharField(max_length=100, blank=True)
-    state = models.CharField(max_length=100, blank=True)
-    zip_code = models.CharField(max_length=10, blank=True)
-    bsn = models.CharField(max_length=10, blank=True)
-
-    supporter = models.ForeignKey(
+    caregiver = models.ManyToManyField(
         'self', 
-        on_delete=models.SET_NULL, 
-        null=True, 
-        blank=True, 
-        related_name='supporter_patients', 
-        limit_choices_to={'role': Role.SUPPORTER}  
-    )
-
-    caregiver = models.ForeignKey(
-        'self', 
-        on_delete=models.SET_NULL, 
-        null= True,
         blank= True, 
+        symmetrical=False, 
         related_name="caregiving_patients",
         limit_choices_to={'role': Role.CAREGIVER}
     )
 
+    forms = models.JSONField(default=list, blank=True)
 
     def save(self, *args, **kwargs):
         if self.username:
